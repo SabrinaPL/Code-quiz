@@ -1,7 +1,7 @@
 /**
  * The main script file of the application.
  *
- * @author // TODO: YOUR NAME <YOUR EMAIL>
+ * @author Sabrina Prichard-Lybeck <sp223kz@student.lnu.se>
  * @version 1.1.0
  */
 

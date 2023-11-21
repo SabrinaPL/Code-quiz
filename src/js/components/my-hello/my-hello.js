@@ -1,7 +1,7 @@
 /**
  * The my-hello web component module.
  *
- * @author // TODO: YOUR NAME <YOUR EMAIL>
+ * @author Sabrina Prichar-Lybeck <sp223kz@student.lnu.se>
  * @version 1.1.0
  */
 
