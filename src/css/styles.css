@@ -1,3 +1,13 @@
+@font-face {
+	font-family: Josefin;
+	src: url(../fonts/Josefin_Sans/JosefinSans-VariableFont_wght.ttf);
+}
+
 body {
-	background: #ffffff;
+	font-family: Josefin, Arial, Helvetica, sans-serif; 
+	background: #BBE6E4;
+	color: #FF66B3; 
+	width: 100vh; 
+	margin: 3rem; 
+	padding: 5rem; 
 }
