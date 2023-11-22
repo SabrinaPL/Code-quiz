@@ -10,17 +10,17 @@
  */
 class nicknameForm extends HTMLElement {
   /**
-     * The nickname form element.
-     *
-     * @type {HTMLDivElement}
-     */
+   * The nickname form element.
+   *
+   * @type {HTMLDivElement}
+   */
   #nicknameForm
 
   /**
-     * The user nickname.
-     *
-     * @type {string}
-     * */
+   * The user nickname.
+   *
+   * @type {string}
+   * */
   #nickname = ''
 
   /**
@@ -63,11 +63,12 @@ class nicknameForm extends HTMLElement {
     // Set up event handler for the nickname form.
     this.shadowRoot.querySelector('#submit').addEventListener('click', (event) => {
       this.#nickname = this.shadowRoot.querySelector('#playerName').value
+
       // I want to prevent the browsers default behaviour here, so that the form doesn't submit (and refresh the webpage).
       event.preventDefault()
 
-      // Test to check that the nickname has been stored.
-      console.log(this.#nickname)
+      // After the nickname has been stored, the nickname-form component should be removed from the DOM (step 2 will be to add the next component - the quiz-question - to start the game?).
+      this.#nicknameForm.remove()
     })
   }
 }
