@@ -57,7 +57,7 @@ class nicknameForm extends HTMLElement {
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.append(template.content.cloneNode(true))
 
-    // Get the nickname form element in the shadow root.
+    // Get the nickname form element in the shadow root. Should I use getters and setters here instead, for better encapsulation?
     this.#nicknameForm = this.shadowRoot.querySelector('#nickname-form')
 
     // Set up event handler for the nickname form.
@@ -67,10 +67,16 @@ class nicknameForm extends HTMLElement {
       // I want to prevent the browsers default behaviour here, so that the form doesn't submit (and refresh the webpage).
       event.preventDefault()
 
-      // After the nickname has been stored, the nickname-form component should be removed from the DOM (step 2 will be to add the next component - the quiz-question - to start the game?).
+      // After the nickname has been stored, the nickname-form component should be removed from the DOM (next step? - communicate with next component, the quiz-question, and add it to the DOM to start the game).
       this.#nicknameForm.remove()
     })
   }
 }
 
+// Should I use callbacks?
+// Observers?
+// Dispatch events, to communicate with other components?
+// I want to send the stored nickname to the high-score component, so that it can be displayed to the user once the quiz has finished.
+
+// Define the custom element.
 customElements.define('nickname-form', nicknameForm)
