@@ -32,7 +32,7 @@ background-color: #42BFDD;
 /** Nickname form class that extends HTMLElement class
  * and creates a custom element.
  */
-class nicknameForm extends HTMLElement {
+class NicknameForm extends HTMLElement {
   /**
    * The nickname form element.
    *
@@ -64,17 +64,16 @@ class nicknameForm extends HTMLElement {
     // Set up event handler for the nickname form.
     this.shadowRoot.querySelector('#submit').addEventListener('click', (event) => {
       this.#nickname = this.shadowRoot.querySelector('#playerName').value
-
       // I want to prevent the browsers default behaviour here, so that the form doesn't submit (and refresh the webpage).
       event.preventDefault()
 
-      console.log(this.#nickname)
-
       // Dispatch event to communicate with quiz-application - quiz-application will listen for this event, store the nickname in a nickname property, then remove the nickname-form component from the DOM?
-      this.#nicknameForm.dispatchEvent(new CustomEvent('nickname', { detail: this.#nickname }))
+      this.#nicknameForm.dispatchEvent(new CustomEvent('nickname', {
+        detail: this.#nickname
+      }))
     })
   }
 }
 
 // Define the custom element.
-customElements.define('nickname-form', nicknameForm)
+customElements.define('nickname-form', NicknameForm)

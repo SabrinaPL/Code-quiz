@@ -5,10 +5,5 @@
  * @version 1.1.0
  */
 
+import './components/quiz-application/index.js'
 import './components/nickname-form/index.js'
-
-/*
-const messageContainer = document.querySelector('#messageContainer')
-const message = document.createTextNode('Hi from an ECMAScript Module.')
-messageContainer.appendChild(message)
-*/
