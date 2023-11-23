@@ -13,8 +13,8 @@ class QuizApplication extends HTMLElement {
    * Connected callback for quiz application class which is invoked when the element is added to the DOM.
    */
   connectedCallback () {
-    // Event listener for nickname event. Listener isn't being fired, why?
-    this.addEventListener('nickname', (event) => {
+    // Event listener for nickname event.
+    document.querySelector('nickname-form').addEventListener('nickname', (event) => {
       console.log(event.detail)
     })
   }

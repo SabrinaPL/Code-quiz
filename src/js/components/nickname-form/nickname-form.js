@@ -7,23 +7,21 @@
 
 const template = document.createElement('template')
 template.innerHTML = `
-<div id="nickname-form">
-<form>
-<label for="playerName">Enter a nickname to start the quiz:</label><br>
-<input type="text" id="playerName" name="playerName" required><br>
-</form><br>
-<div id="btn">
-<button id="submit">Let's play!</button>
-</div>
-</div>
+<form id="nickname-form">
+  <label for="playerName">Enter a nickname to start the quiz:</label><br>
+  <input type="text" id="playerName" name="playerName" required><br>
+  <button type="submit" id="btn">Let's play!</button>
+</form>
+
 <style>
-#submit {
+#btn {
 background-color: #FF66B3; 
 color: white; 
 padding: 5px; 
 border-radius: 5px; 
 }
-#submit:active {
+
+#btn:active {
 background-color: #42BFDD;  
 }
 </style>
@@ -62,13 +60,13 @@ class NicknameForm extends HTMLElement {
     this.#nicknameForm = this.shadowRoot.querySelector('#nickname-form')
 
     // Set up event handler for the nickname form.
-    this.shadowRoot.querySelector('#submit').addEventListener('click', (event) => {
+    this.#nicknameForm.addEventListener('submit', (event) => {
       this.#nickname = this.shadowRoot.querySelector('#playerName').value
       // I want to prevent the browsers default behaviour here, so that the form doesn't submit (and refresh the webpage).
       event.preventDefault()
 
       // Dispatch event to communicate with quiz-application - quiz-application will listen for this event, store the nickname in a nickname property, then remove the nickname-form component from the DOM?
-      this.#nicknameForm.dispatchEvent(new CustomEvent('nickname', {
+      this.dispatchEvent(new CustomEvent('nickname', {
         detail: this.#nickname
       }))
     })
