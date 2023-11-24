@@ -7,3 +7,4 @@
 
 import './components/quiz-application/index.js'
 import './components/nickname-form/index.js'
+import './components/countdown-timer/index.js'
