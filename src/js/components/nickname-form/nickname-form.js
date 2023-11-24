@@ -42,13 +42,6 @@ customElements.define('nickname-form',
     #nicknameForm
 
     /**
-     * The user nickname.
-     *
-     * @type {string}
-     * */
-    #nickname
-
-    /**
      * Constructor for nicknameForm class which invokes its super class constructor.
      */
     constructor () {
@@ -64,13 +57,13 @@ customElements.define('nickname-form',
 
       // Set up event handler for the nickname form.
       this.#nicknameForm.addEventListener('submit', (event) => {
-        this.#nickname = this.shadowRoot.querySelector('#playerName').value
+        this.event = this.shadowRoot.querySelector('#playerName').value
         // I want to prevent the browsers default behaviour here, so that the form doesn't submit (and refresh the webpage).
         event.preventDefault()
 
         // Dispatch event for quiz-application to listen to and handle.
         this.dispatchEvent(new CustomEvent('nickname', {
-          detail: this.#nickname
+          detail: this.event
         }))
       })
     }

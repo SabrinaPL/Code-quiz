@@ -5,6 +5,9 @@ customElements.define('quiz-application',
    * and creates a custom element.
    */
   class extends HTMLElement {
+    // Player nickname, sent to quiz-application from nickname-form.
+    #nickname
+
   /**
    * Constructor for quiz application class which invokes its super class constructor.
    */
@@ -18,7 +21,10 @@ customElements.define('quiz-application',
     connectedCallback () {
       // Event listener for nickname event.
       document.querySelector('nickname-form').addEventListener('nickname', (event) => {
-        console.log(event.detail)
+        this.#nickname = event.detail
+        console.log(this.#nickname)
+        // Remove the 'hidden' attribute from the countdown timer component.
+        document.querySelector('countdown-timer').removeAttribute('hidden')
       })
     }
   })
