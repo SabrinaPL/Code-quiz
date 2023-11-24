@@ -20,6 +20,10 @@ template.innerHTML = `
             justify-content: left; 
             position: relative; 
         }
+
+        .colorChange {
+       color: #084B83; 
+        }
     </style>
 `
 
@@ -29,6 +33,27 @@ customElements.define('countdown-timer',
  * and creates a custom element.
  */
   class extends HTMLElement {
+    /**
+     * StartTime of countdown timer.
+     *
+     * @type {number}
+     */
+    #startTime = 20000
+
+    /**
+     * Current time.
+     *
+     * @type {number}
+     */
+    #currentTime
+
+    /**
+     * IntervalID of countdown timer.
+     *
+     * @type {number}
+     */
+    #intervalID
+
     /**
      * The countdown timer element.
      *
@@ -52,5 +77,55 @@ customElements.define('countdown-timer',
 
       // Add the 'hidden' attribute to the countdown timer component.
       this.setAttribute('hidden', '')
+    }
+
+    /**
+     * Function to start the countdown timer.
+     *
+     * @function
+     * */
+    startCountDown () {
+      this.#currentTime = this.#startTime
+      this.#updateTime()
+
+      this.#intervalID = setInterval(() => {
+        this.#setInterval()
+      }, 1000)
+    }
+
+    /**
+     * Function to update the countdown timer and stop the countdown when it reaches 0 by invoking other functions.
+     */
+    #setInterval () {
+      this.#currentTime -= 1000
+      this.#updateTime()
+      this.#changeColor()
+      this.#stopCountDown()
+    }
+
+    /**
+     * Function to update the UI.
+     */
+    #updateTime () {
+      this.#countdownTimer.querySelector('#time').textContent = this.#currentTime / 1000
+    }
+
+    /**
+     * Function to change color of countdown timer when 3 seconds remain.
+     *
+     */
+    #changeColor () {
+      if (this.#currentTime <= 3000) {
+        this.#countdownTimer.classList.add('colorChange')
+      }
+    }
+
+    /**
+     * Function to stop the countdown timer.
+     */
+    #stopCountDown () {
+      if (this.#currentTime <= 0) {
+        clearInterval(this.#intervalID)
+      }
     }
   })
