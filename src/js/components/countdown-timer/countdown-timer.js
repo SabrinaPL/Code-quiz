@@ -85,6 +85,7 @@ customElements.define('countdown-timer',
      * @function
      * */
     startCountDown () {
+      this.#countdownTimer.classList.remove('colorChange')
       this.#currentTime = this.#startTime
       this.#updateTime()
 

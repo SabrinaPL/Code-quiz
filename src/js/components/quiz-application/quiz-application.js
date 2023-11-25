@@ -25,6 +25,7 @@ customElements.define('quiz-application',
     connectedCallback () {
       const nicknameForm = document.querySelector('nickname-form')
       const countdownTimer = document.querySelector('countdown-timer')
+      const quizQuestion = document.querySelector('quiz-question')
 
       // Event listener for nickname event.
       nicknameForm.addEventListener('nickname', (event) => {
@@ -36,9 +37,9 @@ customElements.define('quiz-application',
 
         // Hide the nickname form.
         nicknameForm.setAttribute('hidden', '')
-      })
 
-      // Remove the color change from the countdown timer when it has been reset.
-      // countdownTimer.classList.remove('colorChange')
+        // Remove the 'hidden' attribute from the quiz-question component.
+        quizQuestion.removeAttribute('hidden')
+      })
     }
   })
