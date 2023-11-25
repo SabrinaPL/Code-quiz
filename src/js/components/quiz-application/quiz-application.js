@@ -23,15 +23,22 @@ customElements.define('quiz-application',
      * Connected callback for quiz application class which is invoked when the element is added to the DOM.
      */
     connectedCallback () {
-      // Event listener for nickname event.
-      document.querySelector('nickname-form').addEventListener('nickname', (event) => {
-        this.#nickname = event.detail
-        console.log(this.#nickname)
+      const nicknameForm = document.querySelector('nickname-form')
+      const countdownTimer = document.querySelector('countdown-timer')
 
-        const countdownTimer = document.querySelector('countdown-timer')
-        // Remove the 'hidden' attribute from the countdown timer component.
+      // Event listener for nickname event.
+      nicknameForm.addEventListener('nickname', (event) => {
+        this.#nickname = event.detail
+
+        // Remove the 'hidden' attribute from the countdown timer component and start the countdown.
         countdownTimer.removeAttribute('hidden')
         countdownTimer.startCountDown()
+
+        // Hide the nickname form.
+        nicknameForm.setAttribute('hidden', '')
       })
+
+      // Remove the color change from the countdown timer when it has been reset.
+      // countdownTimer.classList.remove('colorChange')
     }
   })

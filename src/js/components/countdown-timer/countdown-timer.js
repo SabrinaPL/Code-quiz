@@ -95,6 +95,8 @@ customElements.define('countdown-timer',
 
     /**
      * Function to update the countdown timer and stop the countdown when it reaches 0 by invoking other functions.
+     *
+     * @function
      */
     #setInterval () {
       this.#currentTime -= 1000
@@ -105,6 +107,8 @@ customElements.define('countdown-timer',
 
     /**
      * Function to update the UI.
+     *
+     * @function
      */
     #updateTime () {
       this.#countdownTimer.querySelector('#time').textContent = this.#currentTime / 1000
@@ -113,6 +117,7 @@ customElements.define('countdown-timer',
     /**
      * Function to change color of countdown timer when 3 seconds remain.
      *
+     * @function
      */
     #changeColor () {
       if (this.#currentTime <= 3000) {
@@ -122,6 +127,8 @@ customElements.define('countdown-timer',
 
     /**
      * Function to stop the countdown timer.
+     *
+     * @function
      */
     #stopCountDown () {
       if (this.#currentTime <= 0) {

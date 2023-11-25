@@ -8,13 +8,24 @@
 const template = document.createElement('template')
 template.innerHTML = `
 <form id="nickname-form">
-  <label for="playerName">Enter a nickname to start the quiz:</label><br>
+  <label for="playerName" id="playerLabel">Enter a nickname to start the quiz:</label><br>
   <input type="text" id="playerName" name="playerName" required><br>
   <button type="submit" id="btn">Let's play!</button>
 </form>
 
 <style>
+#playerLabel {
+  font-size: 1.3rem; 
+}
+
+#playerName {
+  font-size: 1rem; 
+  margin-top: 0.5rem; 
+  margin-bottom: 0.5rem; 
+}
+
 #btn {
+font-size: 1.1rem; 
 background-color: #FF66B3; 
 color: white; 
 padding: 5px; 
