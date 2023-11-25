@@ -8,7 +8,7 @@
 const template = document.createElement('template')
 template.innerHTML = `
     <div id="quiz-question">
-        <p><slot id="question">Question</slot></p>
+        <p id="question">Question: <slot id="questionText"></slot></p>
     </div>
     <div id="answer-radio-btn">
         <input type="radio" id="answer1" name="answer" value="answer1">
@@ -33,19 +33,28 @@ template.innerHTML = `
             <label for="answer10">Answer 10</label>
     </div>
     <div id="answer-text">
-        <label for="answer-text-input">Answer:</label>
-        <input type="text" id="answer-text-input" name="answer-text-input">
+        <form>
+            <label for="answer-text-input">Answer:</label>
+            <input type="text" id="answer-text-input" name="answer-text-input" required>
+            <button type="submit" class="btn">Submit</button>
+        </form>
     </div>
 
     <style>
         #question {
             font-size: 1.3rem; 
             font-weight: bold; 
-            margin-bottom: 0.5rem; 
+        }
+
+        #questionText {
+            font-size: 1.2rem; 
+            margin-bottom: 0.5rem;
+            color: #5FDDDB;
         }
 
         #answer-radio-btn {
             display: block; 
+            margin-left: 1.5rem; 
         }
 
         #answer-radio-btn input {
@@ -55,12 +64,26 @@ template.innerHTML = `
 
         #answer-radio-btn label {
             font-size: 1.1rem; 
+            color: #5FDDDB; 
         }
 
         #answer-text {
-            font-size: 1.3rem; 
+            font-size: 1.2rem; 
             font-weight: bold; 
             margin-top: 0.5rem; 
+        }
+
+        .btn {
+            font-size: 0.8rem; 
+            background-color: #FF66B3; 
+            color: white; 
+            padding: 5px; 
+            margin-top: 0.5rem; 
+            border-radius: 5px; 
+        }
+
+        .btn:active {
+            background-color: #42BFDD;  
         }
     </style>
 `
@@ -89,10 +112,26 @@ customElements.define('quiz-question',
       this.attachShadow({ mode: 'open' })
       this.shadowRoot.appendChild(template.content.cloneNode(true))
 
-      // Get the countdown timer element in the shadow root.
+      // Get the quiz question element in the shadow root.
       this.#quizQuestion = this.shadowRoot.querySelector('#quiz-question')
 
-      // Add the 'hidden' attribute to the quiz-question component.
+      // Hide the quiz-question component.
       this.setAttribute('hidden', '')
+    }
+
+    /**
+     * Connected callback for quiz question class which is invoked when the element is added to the DOM.
+     */
+    connectedCallback () {
+      const answerRadioBtn = this.shadowRoot.querySelector('#answer-radio-btn')
+      const answerText = this.shadowRoot.querySelector('#answer-text')
+
+      // Hide the answer-text element.
+      answerText.setAttribute('hidden', '')
+
+      // Hide the answer radio buttons.
+      for (let i = 0; i < answerRadioBtn.children.length; i++) {
+        answerRadioBtn.children[i].setAttribute('hidden', '')
+      }
     }
   })

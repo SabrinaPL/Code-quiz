@@ -22,7 +22,7 @@ template.innerHTML = `
         }
 
         .colorChange {
-       color: #084B83; 
+       color: #5FDDDB; 
         }
     </style>
 `

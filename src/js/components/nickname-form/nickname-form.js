@@ -10,7 +10,7 @@ template.innerHTML = `
 <form id="nickname-form">
   <label for="playerName" id="playerLabel">Enter a nickname to start the quiz:</label><br>
   <input type="text" id="playerName" name="playerName" required><br>
-  <button type="submit" id="btn">Let's play!</button>
+  <button type="submit" class="btn">Let's play!</button>
 </form>
 
 <style>
@@ -24,7 +24,7 @@ template.innerHTML = `
   margin-bottom: 0.5rem; 
 }
 
-#btn {
+.btn {
 font-size: 1.1rem; 
 background-color: #FF66B3; 
 color: white; 
@@ -33,7 +33,7 @@ margin-top: 0.5rem;
 border-radius: 5px; 
 }
 
-#btn:active {
+.btn:active {
 background-color: #42BFDD;  
 }
 </style>
