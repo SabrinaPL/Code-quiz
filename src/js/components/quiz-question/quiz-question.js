@@ -11,26 +11,46 @@ template.innerHTML = `
         <p id="question">Question: <slot></slot></p>
     </div>
     <div id="answer-radio-btn">
+    <div class="answers">
         <input type="radio" id="answer1" name="answer" value="answer1">
             <label for="answer1">Answer 1</label><br>
+    </div>
+    <div class="answers">
         <input type="radio" id="answer2" name="answer" value="answer2">
             <label for="answer2">Answer 2</label><br>
+    </div>
+    <div class="answers">
         <input type="radio" id="answer3" name="answer" value="answer3">
             <label for="answer3">Answer 3</label><br>
+    </div>
+    <div class="answers">
         <input type="radio" id="answer4" name="answer" value="answer4">
             <label for="answer4">Answer 4</label><br>
+    </div>
+    <div class="answers">
         <input type="radio" id="answer5" name="answer" value="answer5">
             <label for="answer5">Answer 5</label><br>
+    </div>
+    <div class="answers">
         <input type="radio" id="answer6" name="answer" value="answer6">
             <label for="answer6">Answer 6</label><br>
+    </div>
+    <div class="answers">
         <input type="radio" id="answer7" name="answer" value="answer7">
             <label for="answer7">Answer 7</label><br>
+    </div>
+    <div class="answers">
         <input type="radio" id="answer8" name="answer" value="answer8">
             <label for="answer8">Answer 8</label><br>
+    </div>
+    <div class="answers">
         <input type="radio" id="answer9" name="answer" value="answer9">
             <label for="answer9">Answer 9</label><br>
+    </div>
+    <div class="answers">
         <input type="radio" id="answer10" name="answer" value="answer10">
             <label for="answer10">Answer 10</label>
+    </div>
     </div>
     <div id="answer-text">
         <form>
@@ -130,4 +150,28 @@ customElements.define('quiz-question',
         answerRadioBtn.children[i].setAttribute('hidden', '')
       }
     }
-  })
+
+    /**
+     * Function to show the answer text input.
+     *
+     * @function
+     */
+    showTextAnswer () {
+      this.shadowRoot.querySelector('#answer-text').removeAttribute('hidden')
+    }
+
+    /**
+     * Function to show the radio buttons.
+     *
+     * @param {number} numOfRadioBtns to be shown.
+     * @function
+     * */
+    showRadioAnswer (numOfRadioBtns) {
+      if (numOfRadioBtns > 0 && numOfRadioBtns <= 10) {
+        for (let i = 0; i < numOfRadioBtns; i++) {
+          this.shadowRoot.querySelector('#answer-radio-btn').children[i].removeAttribute('hidden')
+        }
+      }
+    }
+  }
+)

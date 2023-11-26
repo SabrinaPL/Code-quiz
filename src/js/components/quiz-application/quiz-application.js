@@ -46,7 +46,11 @@ customElements.define('quiz-application',
             if (response.ok) {
               quizQuestion.textContent = data.question
 
-              // Remove the 'hidden' attribute from the text input component.
+              // Show the answer text input.
+              quizQuestion.showTextAnswer()
+
+              // Show the answer radio buttons and input numOfRadioBtns parameter.
+              // quizQuestion.showRadioAnswer(4)
 
               // Remove the 'hidden' attribute from the countdown timer component and start the countdown.
               countdownTimer.removeAttribute('hidden')
