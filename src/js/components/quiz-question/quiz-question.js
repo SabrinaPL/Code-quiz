@@ -8,7 +8,7 @@
 const template = document.createElement('template')
 template.innerHTML = `
     <div id="quiz-question">
-        <p id="question">Question: <slot id="questionText"></slot></p>
+        <p id="question">Question: <slot></slot></p>
     </div>
     <div id="answer-radio-btn">
         <input type="radio" id="answer1" name="answer" value="answer1">
@@ -43,13 +43,9 @@ template.innerHTML = `
     <style>
         #question {
             font-size: 1.3rem; 
-            font-weight: bold; 
-        }
-
-        #questionText {
-            font-size: 1.2rem; 
+            font-weight: bold;
             margin-bottom: 0.5rem;
-            color: #5FDDDB;
+            color: #5FDDDB; 
         }
 
         #answer-radio-btn {
@@ -110,7 +106,7 @@ customElements.define('quiz-question',
       // Attach a shadow DOM tree to this element and
       // append the template to the shadow root.
       this.attachShadow({ mode: 'open' })
-      this.shadowRoot.appendChild(template.content.cloneNode(true))
+      this.shadowRoot.append(template.content.cloneNode(true))
 
       // Get the quiz question element in the shadow root.
       this.#quizQuestion = this.shadowRoot.querySelector('#quiz-question')
