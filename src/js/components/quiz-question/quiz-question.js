@@ -157,7 +157,15 @@ customElements.define('quiz-question',
      * @function
      */
     showTextAnswer () {
-      this.shadowRoot.querySelector('#answer-text').removeAttribute('hidden')
+      const answerText = this.shadowRoot.querySelector('#answer-text')
+      answerText.removeAttribute('hidden')
+      answerText.addEventListener('submit', (event) => {
+        event.preventDefault()
+        const answerTextInput = this.shadowRoot.querySelector('#answer-text-input')
+        // The answer is sent to the quiz-application component to trigger the next question.
+        // Console log test, to see the answer.
+        console.log(answerTextInput.value)
+      })
     }
 
     /**
