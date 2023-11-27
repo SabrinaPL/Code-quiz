@@ -146,4 +146,13 @@ customElements.define('countdown-timer',
         clearInterval(this.#intervalID)
       }
     }
+
+    /**
+     * Function to reset the countdown timer.
+     *
+     * @function
+     */
+    resetTimer () {
+      clearInterval(this.#intervalID)
+    }
   })

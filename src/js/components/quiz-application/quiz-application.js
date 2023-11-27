@@ -93,6 +93,7 @@ customElements.define('quiz-application',
 
           // Remove the 'hidden' attribute from the countdown timer component and start the countdown.
           this.#countdownTimer.removeAttribute('hidden')
+          this.#countdownTimer.resetTimer()
           this.#countdownTimer.startCountDown()
         }
       } catch (error) {
@@ -161,6 +162,7 @@ customElements.define('quiz-application',
           this.#answer = event.detail
           // Test console log to see the answer.
           console.log(event.detail)
+
           this.sendAnswer()
         })
       })
