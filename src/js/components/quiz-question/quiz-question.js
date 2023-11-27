@@ -182,7 +182,7 @@ customElements.define('quiz-question',
 
       // Event listener for the answer form.
       this.#answerForm.addEventListener('submit', (event) => {
-        const answer = { answer: event.target.elements['answer-text-input'].value }
+        const answer = event.target.elements['answer-text-input'].value
 
         // I want to prevent the browsers default behaviour here, so that the form doesn't submit (and refresh the webpage).
         event.preventDefault()

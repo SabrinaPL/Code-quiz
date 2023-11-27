@@ -125,6 +125,9 @@ customElements.define('quiz-application',
         } else {
           const data = await response.json()
           console.log(data)
+
+          this.#postURL = data.nextURL
+          this.getQuestion(this.#postURL)
         }
       } catch (error) {
         console.log(error)
