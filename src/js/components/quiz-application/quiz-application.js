@@ -82,13 +82,27 @@ customElements.define('quiz-application',
 
           // Check if the API response contains answer options to the fetched question and if so, show the same amount of radio buttons as the amount of options, otherwise present the text input to the user.
           if (data.alternatives) {
-            this.#quizQuestion.showRadioAnswer(data.alternatives.length)
+            // I need to figure out the number of items in the alternatives object and then pass that number to the showRadioAnswer function.
+            let numOfAlternatives = 0
+
+            Object.keys(data.alternatives).forEach(key => {
+              numOfAlternatives++
+            })
+
+            // Set the key of each alternative as an attribute to the radio buttons and their labels. Testing to see if this works!
+            for (let i = 0; i < numOfAlternatives; i++) {
+              this.#quizQuestion.shadowRoot.querySelector('#answer-radio-btn').children[i].setAttribute('nameRadio', 'hello')
+            }
+
+            this.#quizQuestion.showRadioAnswer(numOfAlternatives)
           } else {
             this.#quizQuestion.showTextAnswer()
           }
 
           if (data.limit) {
             this.#countdownTimer.updateStartTime(data.limit * 1000)
+          } else {
+            this.#countdownTimer.updateStartTime(20000)
           }
 
           // Remove the 'hidden' attribute from the countdown timer component and start the countdown.
