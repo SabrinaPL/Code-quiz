@@ -8,7 +8,7 @@
 const template = document.createElement('template')
 template.innerHTML = `
     <div id="quiz-question">
-        <p id="question">Question: <slot></slot></p>
+        <p id="question"><slot></slot></p>
     </div>
     <div id="answer-radio-btn">
     <div class="answers">
@@ -52,6 +52,7 @@ template.innerHTML = `
             <label for="answer10">Answer 10</label>
     </div>
     </div>
+    
     <div id="answer-text">
         <form>
             <label for="answer-text-input">Answer:</label>

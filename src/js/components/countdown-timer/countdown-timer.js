@@ -116,6 +116,16 @@ customElements.define('countdown-timer',
     }
 
     /**
+     * Function that updates the start time, if one has been fetched from the API.
+     *
+     * @param {*} newStartTime
+     * @function
+     */
+    updateStartTime (newStartTime) {
+      this.#startTime = newStartTime
+    }
+
+    /**
      * Function to change color of countdown timer when 3 seconds remain.
      *
      * @function

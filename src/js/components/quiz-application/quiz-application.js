@@ -43,8 +43,16 @@ customElements.define('quiz-application',
             // Console log to see the received data.
             console.log(data)
 
-            if (response.ok) {
+            if (!response.ok) {
+              const error = new Error('There was an error fetching the quiz question!')
+              error.status = response.status
+              throw error
+            } else {
               quizQuestion.textContent = data.question
+
+              if (data.limit !== null) {
+                countdownTimer.updateStartTime(data.limit * 1000)
+              }
 
               // Show the answer text input.
               quizQuestion.showTextAnswer()
@@ -57,8 +65,8 @@ customElements.define('quiz-application',
               countdownTimer.startCountDown()
             }
           } catch (error) {
-            console.log('There was an error fetching the quiz question: ', error)
-            quizQuestion.textContent = 'There was an error fetching the quiz question!'
+            console.log(error)
+            quizQuestion.textContent = 'Oops! Something went wrong!'
           }
         }
 
