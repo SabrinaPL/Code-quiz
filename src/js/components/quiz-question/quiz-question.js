@@ -54,7 +54,7 @@ template.innerHTML = `
     </div>
     
     <div id="answer-text">
-        <form>
+        <form id="answer-form">
             <label for="answer-text-input">Answer:</label>
             <input type="text" id="answer-text-input" name="answer-text-input" required>
             <button type="submit" class="btn">Submit</button>
@@ -111,6 +111,9 @@ customElements.define('quiz-question',
  * and creates a custom element.
  */
   class extends HTMLElement {
+    // Get the answer form element in the shadow root.
+    #answerForm
+
     /**
      * The quiz question element.
      *
@@ -137,22 +140,6 @@ customElements.define('quiz-question',
     }
 
     /**
-     * Connected callback for quiz question class which is invoked when the element is added to the DOM.
-     */
-    connectedCallback () {
-      const answerRadioBtn = this.shadowRoot.querySelector('#answer-radio-btn')
-      const answerText = this.shadowRoot.querySelector('#answer-text')
-
-      // Hide the answer-text element.
-      answerText.setAttribute('hidden', '')
-
-      // Hide the answer radio buttons.
-      for (let i = 0; i < answerRadioBtn.children.length; i++) {
-        answerRadioBtn.children[i].setAttribute('hidden', '')
-      }
-    }
-
-    /**
      * Function to show the answer text input.
      *
      * @function
@@ -160,13 +147,6 @@ customElements.define('quiz-question',
     showTextAnswer () {
       const answerText = this.shadowRoot.querySelector('#answer-text')
       answerText.removeAttribute('hidden')
-      answerText.addEventListener('submit', (event) => {
-        event.preventDefault()
-        const answerTextInput = this.shadowRoot.querySelector('#answer-text-input')
-        // The answer is sent to the quiz-application component to trigger the next question.
-        // Console log test, to see the answer.
-        console.log(answerTextInput.value)
-      })
     }
 
     /**
@@ -182,5 +162,34 @@ customElements.define('quiz-question',
         }
       }
     }
-  }
-)
+
+    /**
+     * Connected callback for quiz question class which is invoked when the element is added to the DOM.
+     */
+    connectedCallback () {
+      const answerRadioBtn = this.shadowRoot.querySelector('#answer-radio-btn')
+      const answerText = this.shadowRoot.querySelector('#answer-text')
+      // Get the answer form element in the shadow root.
+      this.#answerForm = this.shadowRoot.querySelector('#answer-form')
+
+      // Hide the answer-text element.
+      answerText.setAttribute('hidden', '')
+
+      // Hide the answer radio buttons.
+      for (let i = 0; i < answerRadioBtn.children.length; i++) {
+        answerRadioBtn.children[i].setAttribute('hidden', '')
+      }
+
+      // Event listener for the answer form.
+      this.#answerForm.addEventListener('submit', (event) => {
+        const answer = { answer: event.target.elements['answer-text-input'].value }
+
+        // I want to prevent the browsers default behaviour here, so that the form doesn't submit (and refresh the webpage).
+        event.preventDefault()
+
+        // Dispatch event for quiz-application to listen to and handle.
+        this.dispatchEvent(new window.CustomEvent('answer',
+          { detail: answer }))
+      })
+    }
+  })

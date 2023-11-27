@@ -118,7 +118,7 @@ customElements.define('countdown-timer',
     /**
      * Function that updates the start time, if one has been fetched from the API.
      *
-     * @param {*} newStartTime
+     * @param {*} newStartTime - The new start time fetched from the API.
      * @function
      */
     updateStartTime (newStartTime) {

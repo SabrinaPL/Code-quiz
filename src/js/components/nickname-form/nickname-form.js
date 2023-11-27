@@ -73,6 +73,7 @@ customElements.define('nickname-form',
       // Get the nickname form element in the shadow root.
       this.#nicknameForm = this.shadowRoot.querySelector('#nickname-form')
 
+      // Move the following code to a connectedCallback?
       // Set up event handler for the nickname form.
       this.#nicknameForm.addEventListener('submit', (event) => {
         this.#nickname = this.shadowRoot.querySelector('#playerName').value
