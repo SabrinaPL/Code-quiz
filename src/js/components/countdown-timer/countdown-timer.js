@@ -148,6 +148,24 @@ customElements.define('countdown-timer',
     }
 
     /**
+     * Function to get the startTime.
+     *
+     * @returns {number} - The startTime.
+     */
+    get startTime () {
+      return this.#startTime
+    }
+
+    /**
+     * Function to get the current time.
+     *
+     * @returns {number} - The current time.
+     */
+    get currentTime () {
+      return this.#currentTime
+    }
+
+    /**
      * Function to reset the countdown timer.
      *
      * @function

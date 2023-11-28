@@ -14,39 +14,52 @@ customElements.define('quiz-application',
 
     /**
      * URL used to fetch quiz questions from API.
-     *
+     * 
+     * @type {string}
      */
     #fetchURL = 'https://courselab.lnu.se/quiz/question/1'
 
     /**
      * Next URL received from API.
-     *
+     * 
+     *  @type {string}
      */
     #postURL = ''
 
     /**
      * User answer to quiz question.
-     *
+     * 
+     * @type {string}
      */
     #answer
 
     /**
      * Nickname form element.
      *
+     * @type {HTMLDivElement}
      */
     #nicknameForm
 
     /**
      * Countdown timer element.
      *
+     * @type {HTMLDivElement}
      */
     #countdownTimer
 
     /**
      * Quiz question element.
      *
+     * @type {HTMLDivElement}
      */
     #quizQuestion
+
+    /**
+     * Total time of finished quiz.
+     *
+     * @type {number}
+     */
+    #totalTime
 
     /**
      * Constructor for quiz application class which invokes its super class constructor.
@@ -82,7 +95,7 @@ customElements.define('quiz-application',
 
           // Check if the API response contains answer options to the fetched question and if so, show the same amount of radio buttons as the amount of options, otherwise present the text input to the user.
           if (data.alternatives) {
-            // I need to figure out the number of items in the alternatives object and then pass that number to the showRadioAnswer function.
+            // Find the number of items with keyword alternatives in the data object and pass that number to the showRadioAnswer function.
             let numOfAlternatives = 0
 
             Object.keys(data.alternatives).forEach(key => {
@@ -150,6 +163,15 @@ customElements.define('quiz-application',
     }
 
     /**
+     * Function to calculate the total time of the finished quiz.
+     *
+     * @function
+     */
+    calculateTotalTime () {
+      this.#totalTime = this.#countdownTimer.startTime() - this.#countdownTimer.currentTime()
+    }
+
+    /**
      * Function that runs when the quiz application component is connected to the DOM.
      *
      * @function
@@ -176,6 +198,9 @@ customElements.define('quiz-application',
           this.#answer = event.detail
           // Test console log to see the answer.
           console.log(event.detail)
+
+          // Test to see if the total time is calculated correctly.
+          console.log(this.#totalTime)
 
           this.sendAnswer()
         })
