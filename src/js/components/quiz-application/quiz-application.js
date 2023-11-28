@@ -62,6 +62,13 @@ customElements.define('quiz-application',
     #totalTime
 
     /**
+     * Boolean to determine if the quiz should continue.
+     *
+     * @type {boolean}
+     */
+    #continueQuiz = true
+
+    /**
      * Constructor for quiz application class which invokes its super class constructor.
      */
     constructor () {
@@ -78,6 +85,15 @@ customElements.define('quiz-application',
     }
 
     /**
+     * Function to end the game.
+     *
+     * @function
+     */
+    // gameOver () {
+
+    // }
+
+    /**
      * Function to fetch questions from the API.
      *
      * @param {string} URL - The URL used to fetch questions from the API.
@@ -89,8 +105,6 @@ customElements.define('quiz-application',
       try {
         const response = await fetch(URL)
         const data = await response.json()
-        // Console log to see the received data.
-        console.log(data)
 
         if (!response.ok) {
           const error = new Error('There was an error fetching the quiz question!')
@@ -100,7 +114,6 @@ customElements.define('quiz-application',
           // Set the question text content to the question from the API.
           this.#quizQuestion.textContent = data.question
           this.#postURL = data.nextURL
-          console.log(this.#postURL)
 
           // Check if the API response contains answer options to the fetched question and if so, show the same amount of radio buttons as the amount of options, otherwise present the text input to the user.
           if (data.alternatives) {
@@ -137,6 +150,12 @@ customElements.define('quiz-application',
             this.#countdownTimer.updateStartTime(20000)
           }
 
+          if (!data.nextURL) {
+            // Set continueQuiz to false to stop the quiz.
+            this.#continueQuiz = false
+            console.log('The quiz is finished!')
+          }
+
           // Remove the 'hidden' attribute from the countdown timer component and start the countdown.
           this.#countdownTimer.removeAttribute('hidden')
           this.#countdownTimer.resetTimer()
@@ -171,10 +190,18 @@ customElements.define('quiz-application',
           throw error
         } else {
           const data = await response.json()
-          console.log(data)
+          console.log('Response from API', response)
+          console.log('Data received', data)
 
-          this.#postURL = data.nextURL
-          this.getQuestion(this.#postURL)
+          if (this.#continueQuiz) {
+            this.#postURL = data.nextURL
+            this.getQuestion(this.#postURL)
+          } else {
+            console.log('The quiz is finished!')
+            this.#countdownTimer.resetTimer()
+            this.#countdownTimer.setAttribute('hidden', '')
+            this.#quizQuestion.setAttribute('hidden', '')
+          }
         }
       } catch (error) {
         console.log(error)
@@ -211,10 +238,14 @@ customElements.define('quiz-application',
         this.#quizQuestion.addEventListener('answer', (event) => {
           this.#answer = event.detail
           // Test console log to see the answer.
-          console.log(event.detail)
+          console.log(this.#answer)
 
           // Clear the answer text input.
           this.#quizQuestion.clearTextAnswer()
+
+          // Clear the radio buttons.
+          this.#quizQuestion.clearRadioBtns()
+
           // Send the answer to the API.
           this.sendAnswer()
         })

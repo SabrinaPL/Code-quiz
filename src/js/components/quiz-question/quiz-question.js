@@ -13,43 +13,43 @@ template.innerHTML = `
     <div id="answer-radio-btn">
     <div class="answers">
         <input type="radio" class="answerRadio" name="answerRadio" value="answer1">
-            <label for="answer1" name="answerLabel"></label><br>
+            <label for="answerRadio" name="answerLabel"></label><br>
     </div>
     <div class="answers">
         <input type="radio" class="answerRadio" name="answerRadio" value="answer2">
-            <label for="answer2" name="answerLabel"></label><br>
+            <label for="answerRadio" name="answerLabel"></label><br>
     </div>
     <div class="answers">
         <input type="radio" class="answerRadio" name="answerRadio" value="answer3">
-            <label for="answer3" name="answerLabel"></label><br>
+            <label for="answerRadio" name="answerLabel"></label><br>
     </div>
     <div class="answers">
         <input type="radio" class="answerRadio" name="answerRadio" value="answer4">
-            <label for="answer4" name="answerLabel"></label><br>
+            <label for="answerRadio" name="answerLabel"></label><br>
     </div>
     <div class="answers">
         <input type="radio" class="answerRadio" name="answerRadio" value="answer5">
-            <label for="answer5" name="answerLabel"></label><br>
+            <label for="answerRadio" name="answerLabel"></label><br>
     </div>
     <div class="answers">
         <input type="radio" class="answerRadio" name="answerRadio" value="answer6">
-            <label for="answer6" name="answerLabel"></label><br>
+            <label for="answerRadio" name="answerLabel"></label><br>
     </div>
     <div class="answers">
         <input type="radio" class="answerRadio" name="answerRadio" value="answer7">
-            <label for="answer7" name="answerLabel"></label><br>
+            <label for="answerRadio" name="answerLabel"></label><br>
     </div>
     <div class="answers">
         <input type="radio" class="answerRadio" name="answerRadio" value="answer8">
-            <label for="answer8" name="answerLabel"></label><br>
+            <label for="answerRadio" name="answerLabel"></label><br>
     </div>
     <div class="answers">
         <input type="radio" class="answerRadio" name="answerRadio" value="answer9">
-            <label for="answer9" name="answerLabel"></label><br>
+            <label for="answerRadio" name="answerLabel"></label><br>
     </div>
     <div class="answers">
         <input type="radio" class="answerRadio" name="answerRadio" value="answer10">
-            <label for="answer10" name="answerLabel"></label>
+            <label for="answerRadio" name="answerLabel"></label>
     </div>
     </div>
     
@@ -142,8 +142,12 @@ customElements.define('quiz-question',
      * @function
      */
     showTextAnswer () {
+      const answerRadioBtn = this.shadowRoot.querySelector('#answer-radio-btn').children
+
       // Hide the radio buttons.
-      this.shadowRoot.querySelector('#answer-radio-btn').setAttribute('hidden', '')
+      for (let i = 0; i < answerRadioBtn.length; i++) {
+        answerRadioBtn[i].setAttribute('hidden', '')
+      }
 
       // Show the answer text input.
       this.shadowRoot.querySelector('#answer-text').removeAttribute('hidden')
@@ -169,10 +173,22 @@ customElements.define('quiz-question',
       this.shadowRoot.querySelector('#answer-text').setAttribute('hidden', '')
 
       // Render the radio buttons.
-      if (numOfRadioBtns > 0 && numOfRadioBtns <= 10) {
-        for (let i = 0; i < numOfRadioBtns; i++) {
-          this.shadowRoot.querySelector('#answer-radio-btn').children[i].removeAttribute('hidden')
-        }
+      for (let i = 0; i < numOfRadioBtns; i++) {
+        this.shadowRoot.querySelector('#answer-radio-btn').children[i].removeAttribute('hidden')
+      }
+    }
+
+    /**
+     * Function to hide and clear the radio buttons.
+     *
+     * @function
+     */
+    clearRadioBtns () {
+      const radioBtns = this.shadowRoot.querySelectorAll('.answerRadio')
+
+      // Clear the radio buttons.
+      for (let i = 0; i < radioBtns.length; i++) {
+        radioBtns[i].checked = false
       }
     }
 
@@ -213,6 +229,7 @@ customElements.define('quiz-question',
         for (let i = 0; i < radioButtons.length; i++) {
           if (radioButtons[i].checked) {
             const answer = radioButtons[i].value
+
             // Dispatch event for quiz-application to listen to and handle.
             this.dispatchEvent(new window.CustomEvent('answer',
               { detail: answer }))
