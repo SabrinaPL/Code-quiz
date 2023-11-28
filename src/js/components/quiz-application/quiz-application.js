@@ -22,7 +22,7 @@ customElements.define('quiz-application',
     /**
      * Next URL received from API.
      *
-     *  @type {string}
+     * @type {string}
      */
     #postURL = ''
 
@@ -213,9 +213,8 @@ customElements.define('quiz-application',
           // Test console log to see the answer.
           console.log(event.detail)
 
-          // Test to see if the total time is calculated correctly.
-          console.log(this.#totalTime)
-
+          // Clear the answer text input.
+          this.#quizQuestion.clearTextAnswer()
           // Send the answer to the API.
           this.sendAnswer()
         })
