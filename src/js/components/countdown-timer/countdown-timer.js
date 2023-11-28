@@ -74,9 +74,6 @@ customElements.define('countdown-timer',
 
       // Get the countdown timer element in the shadow root.
       this.#countdownTimer = this.shadowRoot.querySelector('#countdown-timer')
-
-      // Add the 'hidden' attribute to the countdown timer component.
-      this.setAttribute('hidden', '')
     }
 
     /**

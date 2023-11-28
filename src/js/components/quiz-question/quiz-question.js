@@ -134,9 +134,6 @@ customElements.define('quiz-question',
 
       // Get the quiz question element in the shadow root.
       this.#quizQuestion = this.shadowRoot.querySelector('#quiz-question')
-
-      // Hide the quiz-question component.
-      this.setAttribute('hidden', '')
     }
 
     /**
@@ -145,8 +142,11 @@ customElements.define('quiz-question',
      * @function
      */
     showTextAnswer () {
-      const answerText = this.shadowRoot.querySelector('#answer-text')
-      answerText.removeAttribute('hidden')
+      // Hide the radio buttons.
+      this.shadowRoot.querySelector('#answer-radio-btn').setAttribute('hidden', '')
+
+      // Show the answer text input.
+      this.shadowRoot.querySelector('#answer-text').removeAttribute('hidden')
     }
 
     /**
@@ -156,6 +156,10 @@ customElements.define('quiz-question',
      * @function
      * */
     showRadioAnswer (numOfRadioBtns) {
+      // Hide the answer text input.
+      this.shadowRoot.querySelector('#answer-text').setAttribute('hidden', '')
+
+      // Render the radio buttons.
       if (numOfRadioBtns > 0 && numOfRadioBtns <= 10) {
         for (let i = 0; i < numOfRadioBtns; i++) {
           this.shadowRoot.querySelector('#answer-radio-btn').children[i].removeAttribute('hidden')
@@ -167,10 +171,10 @@ customElements.define('quiz-question',
      * Connected callback for quiz question class which is invoked when the element is added to the DOM.
      */
     connectedCallback () {
-      const answerRadioBtn = this.shadowRoot.querySelector('#answer-radio-btn')
-      const answerText = this.shadowRoot.querySelector('#answer-text')
       // Get the answer form element in the shadow root.
       this.#answerForm = this.shadowRoot.querySelector('#answer-form')
+      const answerRadioBtn = this.shadowRoot.querySelector('#answer-radio-btn')
+      const answerText = this.shadowRoot.querySelector('#answer-text')
 
       // Hide the answer-text element.
       answerText.setAttribute('hidden', '')
@@ -191,5 +195,12 @@ customElements.define('quiz-question',
         this.dispatchEvent(new window.CustomEvent('answer',
           { detail: answer }))
       })
+    }
+
+    /**
+     * Disconnected callback for quiz question class which is invoked when the element is removed from the DOM.
+     */
+    disconnectedCallback () {
+      this.#answerForm.removeEventListener('submit', (event) => { })
     }
   })

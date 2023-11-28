@@ -72,9 +72,15 @@ customElements.define('nickname-form',
 
       // Get the nickname form element in the shadow root.
       this.#nicknameForm = this.shadowRoot.querySelector('#nickname-form')
+    }
 
-      // Move the following code to a connectedCallback?
-      // Set up event handler for the nickname form.
+    /**
+     * Connected callback that is invoked when the element is added to the DOM.
+     *
+     * @function
+     */
+    connectedCallback () {
+      // Event handler for the nickname form.
       this.#nicknameForm.addEventListener('submit', (event) => {
         this.#nickname = this.shadowRoot.querySelector('#playerName').value
         // I want to prevent the browsers default behaviour here, so that the form doesn't submit (and refresh the webpage).
@@ -85,5 +91,14 @@ customElements.define('nickname-form',
           detail: this.#nickname
         }))
       })
+    }
+
+    /**
+     * Disconnected callback that is invoked when the element is removed from the DOM.
+     *
+     * @function
+     */
+    disconnectedCallback () {
+      this.#nicknameForm.removeEventListener('submit', (event) => { })
     }
   })

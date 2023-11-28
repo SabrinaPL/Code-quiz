@@ -66,6 +66,15 @@ customElements.define('quiz-application',
      */
     constructor () {
       super()
+
+      // Get the nickname form, quiz question and countdown timer elements.
+      this.#nicknameForm = document.querySelector('nickname-form')
+      this.#quizQuestion = document.querySelector('quiz-question')
+      this.#countdownTimer = document.querySelector('countdown-timer')
+
+      // Hide the countdown timer and quiz question components.
+      this.#countdownTimer.setAttribute('hidden', '')
+      this.#quizQuestion.setAttribute('hidden', '')
     }
 
     /**
@@ -95,16 +104,21 @@ customElements.define('quiz-application',
 
           // Check if the API response contains answer options to the fetched question and if so, show the same amount of radio buttons as the amount of options, otherwise present the text input to the user.
           if (data.alternatives) {
-            // Find the number of items with keyword alternatives in the data object and pass that number to the showRadioAnswer function.
+            // Find the number of items with keyword alternatives in the data object and later pass that number to the showRadioAnswer function.
             let numOfAlternatives = 0
 
             Object.keys(data.alternatives).forEach(key => {
               numOfAlternatives++
             })
 
-            // Set the key of each alternative as an attribute to the radio buttons and their labels. Testing to see if this works!
+            // Get the radio buttons and labels in the shadow root.
+            const radioBtns = this.#quizQuestion.shadowRoot.querySelectorAll('input[type="radio"]')
+            const labels = this.#quizQuestion.shadowRoot.querySelectorAll('label')
+
+            // Set the key of each alternative as an attribute to the radio buttons and their labels.
             for (let i = 0; i < numOfAlternatives; i++) {
-              this.#quizQuestion.shadowRoot.querySelector('#answer-radio-btn').children[i].setAttribute('nameRadio', 'hello')
+              radioBtns[i].setAttribute('value', 'hello')
+              labels[i].textContent = 'hello'
             }
 
             this.#quizQuestion.showRadioAnswer(numOfAlternatives)
@@ -177,11 +191,6 @@ customElements.define('quiz-application',
      * @function
      */
     connectedCallback () {
-      // Get the nickname form, quiz question and countdown timer elements.
-      this.#nicknameForm = document.querySelector('nickname-form')
-      this.#quizQuestion = document.querySelector('quiz-question')
-      this.#countdownTimer = document.querySelector('countdown-timer')
-
       // Event listener for nickname event.
       this.#nicknameForm.addEventListener('nickname', (event) => {
         this.#nickname = event.detail
@@ -202,6 +211,7 @@ customElements.define('quiz-application',
           // Test to see if the total time is calculated correctly.
           console.log(this.#totalTime)
 
+          // Send the answer to the API.
           this.sendAnswer()
         })
       })
