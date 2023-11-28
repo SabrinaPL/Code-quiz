@@ -106,9 +106,12 @@ customElements.define('quiz-application',
           if (data.alternatives) {
             // Find the number of items with keyword alternatives in the data object and later pass that number to the showRadioAnswer function.
             let numOfAlternatives = 0
+            const alternativeKeys = []
+            const alternativesValues = Object.values(data.alternatives)
 
             Object.keys(data.alternatives).forEach(key => {
               numOfAlternatives++
+              alternativeKeys.push(key)
             })
 
             // Get the radio buttons and labels in the shadow root.
@@ -117,8 +120,10 @@ customElements.define('quiz-application',
 
             // Set the key of each alternative as an attribute to the radio buttons and their labels.
             for (let i = 0; i < numOfAlternatives; i++) {
-              radioBtns[i].setAttribute('value', 'hello')
-              labels[i].textContent = 'hello'
+              const currentKey = alternativeKeys[i]
+              const currentValue = alternativesValues[i]
+              radioBtns[i].setAttribute('value', currentKey)
+              labels[i].textContent = currentValue
             }
 
             this.#quizQuestion.showRadioAnswer(numOfAlternatives)
