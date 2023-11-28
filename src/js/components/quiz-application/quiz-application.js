@@ -14,21 +14,21 @@ customElements.define('quiz-application',
 
     /**
      * URL used to fetch quiz questions from API.
-     * 
+     *
      * @type {string}
      */
     #fetchURL = 'https://courselab.lnu.se/quiz/question/1'
 
     /**
      * Next URL received from API.
-     * 
+     *
      *  @type {string}
      */
     #postURL = ''
 
     /**
      * User answer to quiz question.
-     * 
+     *
      * @type {string}
      */
     #answer
@@ -167,9 +167,9 @@ customElements.define('quiz-application',
      *
      * @function
      */
-    calculateTotalTime () {
-      this.#totalTime = this.#countdownTimer.startTime() - this.#countdownTimer.currentTime()
-    }
+    // calculateTotalTime () {
+    //  this.#totalTime = currentTime - startTime
+    // }
 
     /**
      * Function that runs when the quiz application component is connected to the DOM.
