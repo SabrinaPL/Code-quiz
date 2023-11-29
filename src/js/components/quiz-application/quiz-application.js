@@ -125,12 +125,17 @@ customElements.define('quiz-application',
       if (this.#wrongAnswer || this.#timeUp) {
         // Reset the quiz.
         this.#countdownTimer.setAttribute('hidden', '')
+        this.#quizQuestion.hideRadioBtns()
+        this.#quizQuestion.hideTextAnswer()
         this.#quizQuestion.textContent = 'Game Over! Try again?'
+        this.#quizQuestion.showTryAgainBtn()
         this.#resetNickname()
         this.#countdownTimer.resetTimer()
         this.#continueQuiz = true
       } else {
         // Reset the quiz, update the player object and show the high score.
+        this.#quizQuestion.hideRadioBtns()
+        this.#quizQuestion.hideTextAnswer()
         this.#countdownTimer.setAttribute('hidden', '')
         this.#quizQuestion.setAttribute('hidden', '')
 
@@ -301,6 +306,11 @@ customElements.define('quiz-application',
         this.#countdownTimer.addEventListener('countdownTimerFinished', (event) => {
           this.#timeUp = true
           this.#gameOver()
+        })
+
+        // Event listener for try again event.
+        this.#quizQuestion.addEventListener('tryAgain', (event) => {
+          console.log('try again')
         })
 
         // Event listener for answer event.

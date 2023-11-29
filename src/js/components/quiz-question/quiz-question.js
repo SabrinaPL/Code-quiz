@@ -152,6 +152,18 @@ customElements.define('quiz-question',
     }
 
     /**
+     * Function to hide text answer field.
+     *
+     * @function
+     */
+    hideTextAnswer () {
+      const answerText = this.shadowRoot.querySelector('#answer-text')
+
+      // Hide the answer-text element.
+      answerText.setAttribute('hidden', '')
+    }
+
+    /**
      * Function to clear the answer text input.
      *
      * @function
@@ -192,21 +204,42 @@ customElements.define('quiz-question',
     }
 
     /**
+     * Function to hide radio buttons.
+     *
+     * @function
+     */
+    hideRadioBtns () {
+      const answerRadioBtn = this.shadowRoot.querySelector('#answer-radio-btn')
+      const submitButton = this.shadowRoot.querySelector('.btn')
+
+      // Hide the radio buttons and submit button.
+      for (let i = 0; i < answerRadioBtn.children.length; i++) {
+        answerRadioBtn.children[i].setAttribute('hidden', '')
+      }
+      submitButton.setAttribute('hidden', '')
+    }
+
+    /**
+     * Show try again button.
+     *
+     * @function
+     */
+    showTryAgainBtn () {
+      this.shadowRoot.querySelector('#try-again-btn').removeAttribute('hidden')
+    }
+
+    /**
      * Connected callback for quiz question class which is invoked when the element is added to the DOM.
      */
     connectedCallback () {
       // Get the answer form element in the shadow root.
       this.#answerForm = this.shadowRoot.querySelector('#answer-form')
-      const answerRadioBtn = this.shadowRoot.querySelector('#answer-radio-btn')
-      const answerText = this.shadowRoot.querySelector('#answer-text')
 
       // Hide the answer-text element.
-      answerText.setAttribute('hidden', '')
+      this.hideTextAnswer()
 
       // Hide the answer radio buttons.
-      for (let i = 0; i < answerRadioBtn.children.length; i++) {
-        answerRadioBtn.children[i].setAttribute('hidden', '')
-      }
+      this.hideRadioBtns()
 
       // Event listener for the answer form.
       this.#answerForm.addEventListener('submit', (event) => {
@@ -216,11 +249,18 @@ customElements.define('quiz-question',
         event.preventDefault()
 
         // Hide the answer text input.
-        answerText.setAttribute('hidden', '')
+        this.hideTextAnswer()
 
         // Dispatch event for quiz-application to listen to and handle.
         this.dispatchEvent(new CustomEvent('answer',
           { detail: answer }))
+      })
+
+      // Event listener for the try again button.
+      const tryAgainBtn = this.shadowRoot.querySelector('#try-again-btn')
+      tryAgainBtn.addEventListener('click', (event) => {
+        // Dispatch event for quiz-application to listen to and handle.
+        this.dispatchEvent(new CustomEvent('tryAgain', {}))
       })
 
       // Event listeners for the radio buttons.
@@ -235,9 +275,7 @@ customElements.define('quiz-question',
               { detail: answer }))
 
             // Hide the radio buttons.
-            for (let i = 0; i < answerRadioBtn.children.length; i++) {
-              answerRadioBtn.children[i].setAttribute('hidden', '')
-            }
+            this.hideRadioBtns()
           }
         })
 
@@ -251,9 +289,7 @@ customElements.define('quiz-question',
               { detail: answer }))
 
             // Hide the radio buttons.
-            for (let i = 0; i < answerRadioBtn.children.length; i++) {
-              answerRadioBtn.children[i].setAttribute('hidden', '')
-            }
+            this.hideRadioBtns()
           }
         })
       })
