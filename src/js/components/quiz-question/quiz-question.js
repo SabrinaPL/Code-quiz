@@ -222,7 +222,7 @@ customElements.define('quiz-question',
       })
 
       // Event listener for the radio buttons.
-      answerRadioBtn.addEventListener('change', (event) => {
+      answerRadioBtn.addEventListener('click', (event) => {
         const radioButtons = this.shadowRoot.querySelectorAll('.answerRadio')
 
         // Loop through the radio buttons and check which one is checked.
@@ -243,5 +243,6 @@ customElements.define('quiz-question',
      */
     disconnectedCallback () {
       this.#answerForm.removeEventListener('submit', (event) => { })
+      this.#answerForm.removeEventListener('click', (event) => { })
     }
   })
