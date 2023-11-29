@@ -13,6 +13,16 @@ customElements.define('quiz-application',
     #nickname
 
     /**
+     * Player object to store current player nickname and total score, to be presented in high-score.
+     *
+     * @type {object}
+     */
+    #player = {
+      nickname: '',
+      totalScore: 0
+    }
+
+    /**
      * URL used to fetch quiz questions from API.
      *
      * @type {string}
@@ -54,6 +64,12 @@ customElements.define('quiz-application',
      */
     #quizQuestion
 
+    /** High score element.
+     *
+     * @type {HTMLDivElement}
+     */
+    #highScore
+
     /**
      * Total time of finished quiz.
      *
@@ -78,10 +94,12 @@ customElements.define('quiz-application',
       this.#nicknameForm = document.querySelector('nickname-form')
       this.#quizQuestion = document.querySelector('quiz-question')
       this.#countdownTimer = document.querySelector('countdown-timer')
+      this.#highScore = document.querySelector('high-score')
 
-      // Hide the countdown timer and quiz question components.
+      // Hide the countdown timer, quiz question and high score components.
       this.#countdownTimer.setAttribute('hidden', '')
       this.#quizQuestion.setAttribute('hidden', '')
+      this.#highScore.setAttribute('hidden', '')
     }
 
     /**
@@ -94,9 +112,11 @@ customElements.define('quiz-application',
         // Reset the quiz.
         // Calculate the total time of the finished quiz.
         // Show the highscore component and hide the rest.
+        this.#resetNickname()
         this.#countdownTimer.resetTimer()
         this.#countdownTimer.setAttribute('hidden', '')
         this.#quizQuestion.setAttribute('hidden', '')
+        this.#highScore.removeAttribute('hidden', '')
       }
     }
 
@@ -108,6 +128,15 @@ customElements.define('quiz-application',
     #calcTotalTime () {
       const time = this.#countdownTimer.countTime()
       this.#totalTime += time
+    }
+
+    /**
+     * Function to reset nickname.
+     *
+     * @function
+     */
+    #resetNickname () {
+      this.#nickname = ''
     }
 
     /**
@@ -211,6 +240,10 @@ customElements.define('quiz-application',
             this.#postURL = data.nextURL
             this.getQuestion(this.#postURL)
           } else {
+            // Dispatch event for high-score to listen to and handle.
+            this.dispatchEvent(new CustomEvent('gameover', {
+              detail: this.#player
+            }))
             this.#gameOver()
           }
         }
