@@ -89,9 +89,13 @@ customElements.define('quiz-application',
      *
      * @function
      */
-    // gameOver () {
-
-    // }
+    gameOver () {
+      if (!this.#continueQuiz) {
+        this.#countdownTimer.resetTimer()
+        this.#countdownTimer.setAttribute('hidden', '')
+        this.#quizQuestion.setAttribute('hidden', '')
+      }
+    }
 
     /**
      * Function to fetch questions from the API.
@@ -150,12 +154,6 @@ customElements.define('quiz-application',
             this.#countdownTimer.updateStartTime(20000)
           }
 
-          if (!data.nextURL) {
-            // Set continueQuiz to false to stop the quiz.
-            this.#continueQuiz = false
-            console.log('The quiz is finished!')
-          }
-
           // Remove the 'hidden' attribute from the countdown timer component and start the countdown.
           this.#countdownTimer.removeAttribute('hidden')
           this.#countdownTimer.resetTimer()
@@ -190,17 +188,17 @@ customElements.define('quiz-application',
           throw error
         } else {
           const data = await response.json()
-          console.log('Response from API', response)
-          console.log('Data received', data)
+
+          if (!data.nextURL) {
+            // Set continueQuiz to false to stop the quiz.
+            this.#continueQuiz = false
+          }
 
           if (this.#continueQuiz) {
             this.#postURL = data.nextURL
             this.getQuestion(this.#postURL)
           } else {
-            console.log('The quiz is finished!')
-            this.#countdownTimer.resetTimer()
-            this.#countdownTimer.setAttribute('hidden', '')
-            this.#quizQuestion.setAttribute('hidden', '')
+            this.gameOver()
           }
         }
       } catch (error) {
