@@ -217,7 +217,7 @@ customElements.define('quiz-question',
         event.preventDefault()
 
         // Dispatch event for quiz-application to listen to and handle.
-        this.dispatchEvent(new window.CustomEvent('answer',
+        this.dispatchEvent(new CustomEvent('answer',
           { detail: answer }))
       })
 
@@ -231,7 +231,7 @@ customElements.define('quiz-question',
             const answer = radioButtons[i].value
 
             // Dispatch event for quiz-application to listen to and handle.
-            this.dispatchEvent(new window.CustomEvent('answer',
+            this.dispatchEvent(new CustomEvent('answer',
               { detail: answer }))
           }
         }

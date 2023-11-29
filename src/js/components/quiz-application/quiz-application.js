@@ -85,6 +85,20 @@ customElements.define('quiz-application',
     #continueQuiz = true
 
     /**
+     * Boolean to determine if the user has given the incorrect answer.
+     *
+     * @type {boolean}
+     */
+    #wrongAnswer = false
+
+    /**
+     * Boolean to determine if the time is up.
+     *
+     * @type {boolean}
+     */
+    #timeUp = false
+
+    /**
      * Constructor for quiz application class which invokes its super class constructor.
      */
     constructor () {
@@ -108,10 +122,16 @@ customElements.define('quiz-application',
      * @function
      */
     #gameOver () {
-      if (!this.#continueQuiz) {
+      if (this.#wrongAnswer || this.#timeUp) {
         // Reset the quiz.
-        // Calculate the total time of the finished quiz.
-        // Show the highscore component and hide the rest.
+        this.#resetNickname()
+        this.#countdownTimer.resetTimer()
+        this.#countdownTimer.setAttribute('hidden', '')
+        this.#quizQuestion.setAttribute('hidden', '')
+        this.#continueQuiz = true
+      } else {
+        // Reset the quiz, update the player object and show the high score.
+        this.#continueQuiz = true
         this.#resetNickname()
         this.#countdownTimer.resetTimer()
         this.#countdownTimer.setAttribute('hidden', '')
@@ -224,7 +244,10 @@ customElements.define('quiz-application',
           })
         })
 
-        if (!response.ok) {
+        if (!response.ok && response.status === 400) {
+          this.#wrongAnswer = true
+          this.#gameOver()
+          this.#continueQuiz = false
           const error = new Error('There was an error posting the answer to the API!')
           error.status = response.status
           throw error
@@ -268,6 +291,11 @@ customElements.define('quiz-application',
 
         // Remove the 'hidden' attribute from the quiz-question component.
         this.#quizQuestion.removeAttribute('hidden')
+
+        this.#countdownTimer.addEventListener('countdownTimerFinished', (event) => {
+          this.#timeUp = true
+          this.#gameOver()
+        })
 
         // Event listener for answer event.
         this.#quizQuestion.addEventListener('answer', (event) => {

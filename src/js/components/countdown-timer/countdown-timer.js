@@ -141,6 +141,9 @@ customElements.define('countdown-timer',
     #stopCountDown () {
       if (this.#currentTime <= 0) {
         clearInterval(this.#intervalID)
+
+        // Dispatch an event for quiz-application to listen to and handle.
+        this.dispatchEvent(new CustomEvent('countdownTimerFinished', {}))
       }
     }
 
