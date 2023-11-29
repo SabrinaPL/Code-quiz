@@ -124,19 +124,25 @@ customElements.define('quiz-application',
     #gameOver () {
       if (this.#wrongAnswer || this.#timeUp) {
         // Reset the quiz.
+        this.#countdownTimer.setAttribute('hidden', '')
+        this.#quizQuestion.textContent = 'Game Over! Try again?'
         this.#resetNickname()
         this.#countdownTimer.resetTimer()
-        this.#countdownTimer.setAttribute('hidden', '')
-        this.#quizQuestion.setAttribute('hidden', '')
         this.#continueQuiz = true
       } else {
         // Reset the quiz, update the player object and show the high score.
-        this.#continueQuiz = true
-        this.#resetNickname()
-        this.#countdownTimer.resetTimer()
         this.#countdownTimer.setAttribute('hidden', '')
         this.#quizQuestion.setAttribute('hidden', '')
+
+        // Update the player object.
+        this.#player.nickname = this.#nickname
+        this.#player.totalScore = this.#totalTime
+        console.log(this.#player)
+
         this.#highScore.removeAttribute('hidden', '')
+        this.#resetNickname()
+        this.#countdownTimer.resetTimer()
+        this.#continueQuiz = true
       }
     }
 
@@ -217,9 +223,9 @@ customElements.define('quiz-application',
           }
 
           // Remove the 'hidden' attribute from the countdown timer component and start the countdown.
-          this.#countdownTimer.removeAttribute('hidden')
           this.#countdownTimer.resetTimer()
           this.#countdownTimer.startCountDown()
+          this.#countdownTimer.removeAttribute('hidden')
         }
       } catch (error) {
         console.log(error)
@@ -304,9 +310,8 @@ customElements.define('quiz-application',
           // Calculate the total time of the finished quiz.
           this.#calcTotalTime()
 
-          // Test console log to see the answer and total time.
-          console.log(this.#answer)
-          console.log(this.#totalTime)
+          // Hide the countdown timer.
+          this.#countdownTimer.setAttribute('hidden', '')
 
           // Clear the answer text input.
           this.#quizQuestion.clearTextAnswer()

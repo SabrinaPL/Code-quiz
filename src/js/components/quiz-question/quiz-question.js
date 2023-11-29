@@ -51,6 +51,7 @@ template.innerHTML = `
         <input type="radio" class="answerRadio" name="answerRadio" value="answer10">
             <label for="answerRadio" name="answerLabel"></label>
     </div>
+    <button type="submit" class="btn" hidden>Submit</button>
     </div>
     
     <div id="answer-text">
@@ -59,6 +60,10 @@ template.innerHTML = `
             <input type="text" id="answer-text-input" name="answer-text-input" required>
             <button type="submit" class="btn">Submit</button>
         </form>
+    </div>
+
+    <div id="try-again-btn" hidden>
+        <button class="btn">Try again</button>
     </div>
 
     <style>
@@ -142,14 +147,7 @@ customElements.define('quiz-question',
      * @function
      */
     showTextAnswer () {
-      const answerRadioBtn = this.shadowRoot.querySelector('#answer-radio-btn').children
-
-      // Hide the radio buttons.
-      for (let i = 0; i < answerRadioBtn.length; i++) {
-        answerRadioBtn[i].setAttribute('hidden', '')
-      }
-
-      // Show the answer text input.
+      // Display the answer text input.
       this.shadowRoot.querySelector('#answer-text').removeAttribute('hidden')
     }
 
@@ -169,13 +167,14 @@ customElements.define('quiz-question',
      * @function
      * */
     showRadioAnswer (numOfRadioBtns) {
-      // Hide the answer text input.
-      this.shadowRoot.querySelector('#answer-text').setAttribute('hidden', '')
+      const submitButton = this.shadowRoot.querySelector('.btn')
 
-      // Render the radio buttons.
+      // Display the radio buttons and submit button.
       for (let i = 0; i < numOfRadioBtns; i++) {
         this.shadowRoot.querySelector('#answer-radio-btn').children[i].removeAttribute('hidden')
       }
+
+      submitButton.removeAttribute('hidden')
     }
 
     /**
@@ -216,25 +215,47 @@ customElements.define('quiz-question',
         // I want to prevent the browsers default behaviour here, so that the form doesn't submit (and refresh the webpage).
         event.preventDefault()
 
+        // Hide the answer text input.
+        answerText.setAttribute('hidden', '')
+
         // Dispatch event for quiz-application to listen to and handle.
         this.dispatchEvent(new CustomEvent('answer',
           { detail: answer }))
       })
 
-      // Event listener for the radio buttons.
-      answerRadioBtn.addEventListener('click', (event) => {
-        const radioButtons = this.shadowRoot.querySelectorAll('.answerRadio')
-
-        // Loop through the radio buttons and check which one is checked.
-        for (let i = 0; i < radioButtons.length; i++) {
-          if (radioButtons[i].checked) {
-            const answer = radioButtons[i].value
+      // Event listeners for the radio buttons.
+      const radioBtns = this.shadowRoot.querySelectorAll('.answerRadio')
+      radioBtns.forEach(radioBtn => {
+        radioBtn.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            const answer = radioBtn.value
 
             // Dispatch event for quiz-application to listen to and handle.
             this.dispatchEvent(new CustomEvent('answer',
               { detail: answer }))
+
+            // Hide the radio buttons.
+            for (let i = 0; i < answerRadioBtn.children.length; i++) {
+              answerRadioBtn.children[i].setAttribute('hidden', '')
+            }
           }
-        }
+        })
+
+        const radioBtnSubmit = this.shadowRoot.querySelector('.btn')
+        radioBtnSubmit.addEventListener('click', (event) => {
+          if (radioBtn.checked) {
+            const answer = radioBtn.value
+
+            // Dispatch event for quiz-application to listen to and handle.
+            this.dispatchEvent(new CustomEvent('answer',
+              { detail: answer }))
+
+            // Hide the radio buttons.
+            for (let i = 0; i < answerRadioBtn.children.length; i++) {
+              answerRadioBtn.children[i].setAttribute('hidden', '')
+            }
+          }
+        })
       })
     }
 
