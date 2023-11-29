@@ -38,7 +38,7 @@ customElements.define('countdown-timer',
      *
      * @type {number}
      */
-    #startTime = 20000
+    #startTime = 0
 
     /**
      * Current time.
@@ -154,7 +154,7 @@ customElements.define('countdown-timer',
      * @returns {number} - The remaining time.
      */
     countTime () {
-      return (this.#startTime - this.#currentTime) / 1000
+      return this.#currentTime / 1000
     }
 
     /**
