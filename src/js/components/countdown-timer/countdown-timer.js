@@ -145,6 +145,16 @@ customElements.define('countdown-timer',
     }
 
     /**
+     * Function to calculate the remaining time after quiz anser.
+     *
+     * @function
+     * @returns {number} - The remaining time.
+     */
+    countTime () {
+      return (this.#startTime - this.#currentTime) / 1000
+    }
+
+    /**
      * Function to reset the countdown timer.
      *
      * @function

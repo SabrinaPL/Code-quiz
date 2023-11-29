@@ -59,7 +59,7 @@ customElements.define('quiz-application',
      *
      * @type {number}
      */
-    #totalTime
+    #totalTime = 0
 
     /**
      * Boolean to determine if the quiz should continue.
@@ -89,12 +89,25 @@ customElements.define('quiz-application',
      *
      * @function
      */
-    gameOver () {
+    #gameOver () {
       if (!this.#continueQuiz) {
+        // Reset the quiz.
+        // Calculate the total time of the finished quiz.
+        // Show the highscore component and hide the rest.
         this.#countdownTimer.resetTimer()
         this.#countdownTimer.setAttribute('hidden', '')
         this.#quizQuestion.setAttribute('hidden', '')
       }
+    }
+
+    /**
+     * Function to calculate the total time of finished quiz.
+     *
+     * @function
+     */
+    #calcTotalTime () {
+      const time = this.#countdownTimer.countTime()
+      this.#totalTime += time
     }
 
     /**
@@ -198,22 +211,13 @@ customElements.define('quiz-application',
             this.#postURL = data.nextURL
             this.getQuestion(this.#postURL)
           } else {
-            this.gameOver()
+            this.#gameOver()
           }
         }
       } catch (error) {
         console.log(error)
       }
     }
-
-    /**
-     * Function to calculate the total time of the finished quiz.
-     *
-     * @function
-     */
-    // calculateTotalTime () {
-    //  this.#totalTime = currentTime - startTime
-    // }
 
     /**
      * Function that runs when the quiz application component is connected to the DOM.
@@ -235,8 +239,13 @@ customElements.define('quiz-application',
         // Event listener for answer event.
         this.#quizQuestion.addEventListener('answer', (event) => {
           this.#answer = event.detail
-          // Test console log to see the answer.
+
+          // Calculate the total time of the finished quiz.
+          this.#calcTotalTime()
+
+          // Test console log to see the answer and total time.
           console.log(this.#answer)
+          console.log(this.#totalTime)
 
           // Clear the answer text input.
           this.#quizQuestion.clearTextAnswer()
