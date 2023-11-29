@@ -259,6 +259,9 @@ customElements.define('quiz-question',
       // Event listener for the try again button.
       const tryAgainBtn = this.shadowRoot.querySelector('#try-again-btn')
       tryAgainBtn.addEventListener('click', (event) => {
+        // Hide try again button.
+        tryAgainBtn.setAttribute('hidden', '')
+
         // Dispatch event for quiz-application to listen to and handle.
         this.dispatchEvent(new CustomEvent('tryAgain', {}))
       })

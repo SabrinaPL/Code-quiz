@@ -9,7 +9,23 @@ const template = document.createElement('template')
 template.innerHTML = `
     <div id="high-score">
         <h2>High Score</h2>
+        <button type="submit" class="btn">Play again</button>
     </div>
+
+    <style>
+        .btn {
+        font-size: 1.1rem; 
+        background-color: #FF66B3; 
+        color: white; 
+        padding: 5px; 
+        margin-top: 0.5rem; 
+        border-radius: 5px; 
+        }
+
+        .btn:active {
+        background-color: #42BFDD;  
+        }
+    </style>
 `
 
 // Define the custom element.
@@ -59,12 +75,20 @@ customElements.define('high-score',
      *
      * @function
      */
-    // connectedCallback () { }
+    connectedCallback () {
+      // Add event listener to play again button.
+      this.shadowRoot.querySelector('.btn').addEventListener('click', () => {
+        // Dispatch the event.
+        this.dispatchEvent(new CustomEvent('playAgain', {}))
+      })
+    }
 
     /**
      * Disconnected callback that is invoked when the element is removed from the DOM.
      *
      * @function
      */
-    // disconnectedCallback () { }
+    disconnectedCallback () {
+      this.shadowRoot.querySelector('.btn').removeEventListener('click', () => { })
+    }
   })

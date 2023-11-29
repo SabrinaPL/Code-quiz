@@ -152,6 +152,22 @@ customElements.define('quiz-application',
     }
 
     /**
+     * Function to restart the quiz.
+     *
+     * @function
+     */
+    #restartQuiz () {
+      this.#nicknameForm.removeAttribute('hidden')
+      this.#quizQuestion.hideRadioBtns()
+      this.#quizQuestion.hideTextAnswer()
+      this.#countdownTimer.setAttribute('hidden', '')
+      this.#quizQuestion.setAttribute('hidden', '')
+      this.#highScore.setAttribute('hidden', '')
+      this.#countdownTimer.resetTimer()
+      this.#continueQuiz = true
+    }
+
+    /**
      * Function to calculate the total time of finished quiz.
      *
      * @function
@@ -295,10 +311,12 @@ customElements.define('quiz-application',
       // Event listener for nickname event.
       this.#nicknameForm.addEventListener('nickname', (event) => {
         this.#nickname = event.detail
-        this.getQuestion(this.#fetchURL)
 
         // Hide the nickname form.
         this.#nicknameForm.setAttribute('hidden', '')
+
+        // Start the quiz.
+        this.getQuestion(this.#fetchURL)
 
         // Remove the 'hidden' attribute from the quiz-question component.
         this.#quizQuestion.removeAttribute('hidden')
@@ -310,7 +328,12 @@ customElements.define('quiz-application',
 
         // Event listener for try again event.
         this.#quizQuestion.addEventListener('tryAgain', (event) => {
-          console.log('try again')
+          this.#restartQuiz()
+        })
+
+        // Event listener for play again event.
+        this.#highScore.addEventListener('playAgain', (event) => {
+          this.#restartQuiz()
         })
 
         // Event listener for answer event.
@@ -319,6 +342,7 @@ customElements.define('quiz-application',
 
           // Calculate the total time of the finished quiz.
           this.#calcTotalTime()
+          console.log(this.#totalTime)
 
           // Hide the countdown timer.
           this.#countdownTimer.setAttribute('hidden', '')
