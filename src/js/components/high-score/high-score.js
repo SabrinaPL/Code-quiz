@@ -82,13 +82,4 @@ customElements.define('high-score',
         this.dispatchEvent(new CustomEvent('playAgain', {}))
       })
     }
-
-    /**
-     * Disconnected callback that is invoked when the element is removed from the DOM.
-     *
-     * @function
-     */
-    disconnectedCallback () {
-      this.shadowRoot.querySelector('.btn').removeEventListener('click', () => { })
-    }
   })

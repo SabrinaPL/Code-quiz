@@ -1,3 +1,16 @@
+import '../nickname-form/index.js'
+import '../countdown-timer/index.js'
+import '../quiz-question/index.js'
+import '../high-score/index.js'
+
+const template = document.createElement('template')
+template.innerHTML = `
+  <nickname-form></nickname-form>
+  <quiz-question></quiz-question>
+  <countdown-timer></countdown-timer>
+  <high-score></high-score>
+  `
+
 // Define the custom element.
 customElements.define('quiz-application',
 
@@ -104,11 +117,19 @@ customElements.define('quiz-application',
     constructor () {
       super()
 
+      // Attach a shadow DOM tree to this element and
+      // append the template to the shadow root.
+      this.attachShadow({ mode: 'open' })
+      this.shadowRoot.append(template.content.cloneNode(true))
+
+      // Get the quiz question element in the shadow root.
+      this.#quizQuestion = this.shadowRoot.querySelector('#quiz-question')
+
       // Get the nickname form, quiz question and countdown timer elements.
-      this.#nicknameForm = document.querySelector('nickname-form')
-      this.#quizQuestion = document.querySelector('quiz-question')
-      this.#countdownTimer = document.querySelector('countdown-timer')
-      this.#highScore = document.querySelector('high-score')
+      this.#nicknameForm = this.shadowRoot.querySelector('nickname-form')
+      this.#quizQuestion = this.shadowRoot.querySelector('quiz-question')
+      this.#countdownTimer = this.shadowRoot.querySelector('countdown-timer')
+      this.#highScore = this.shadowRoot.querySelector('high-score')
 
       // Hide the countdown timer, quiz question and high score components.
       this.#countdownTimer.setAttribute('hidden', '')

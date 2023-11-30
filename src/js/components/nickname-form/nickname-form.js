@@ -92,13 +92,4 @@ customElements.define('nickname-form',
         }))
       })
     }
-
-    /**
-     * Disconnected callback that is invoked when the element is removed from the DOM.
-     *
-     * @function
-     */
-    disconnectedCallback () {
-      this.#nicknameForm.removeEventListener('submit', (event) => { })
-    }
   })

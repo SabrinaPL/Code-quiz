@@ -297,12 +297,4 @@ customElements.define('quiz-question',
         })
       })
     }
-
-    /**
-     * Disconnected callback for quiz question class which is invoked when the element is removed from the DOM.
-     */
-    disconnectedCallback () {
-      this.#answerForm.removeEventListener('submit', (event) => { })
-      this.#answerForm.removeEventListener('click', (event) => { })
-    }
   })
