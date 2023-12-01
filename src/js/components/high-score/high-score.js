@@ -124,6 +124,9 @@ customElements.define('high-score',
       } else {
         // Get the high score list from local storage.
         this.#highScoreList = JSON.parse(localStorage.getItem('highScoreList'))
+
+        // Keep only the top 5 scores in the high score list, remove the rest.
+        this.#highScoreList = this.#highScoreList.slice(0, 5)
       }
     }
 
