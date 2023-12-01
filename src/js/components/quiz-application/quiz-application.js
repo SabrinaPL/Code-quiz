@@ -32,7 +32,7 @@ customElements.define('quiz-application',
      */
     #player = {
       nickname: '',
-      totalScore: 0
+      score: 0
     }
 
     /**
@@ -122,9 +122,6 @@ customElements.define('quiz-application',
       this.attachShadow({ mode: 'open' })
       this.shadowRoot.append(template.content.cloneNode(true))
 
-      // Get the quiz question element in the shadow root.
-      this.#quizQuestion = this.shadowRoot.querySelector('#quiz-question')
-
       // Get the nickname form, quiz question and countdown timer elements.
       this.#nicknameForm = this.shadowRoot.querySelector('nickname-form')
       this.#quizQuestion = this.shadowRoot.querySelector('quiz-question')
@@ -144,32 +141,27 @@ customElements.define('quiz-application',
      */
     #gameOver () {
       if (this.#wrongAnswer || this.#timeUp) {
-        // Reset the quiz.
-        this.#countdownTimer.setAttribute('hidden', '')
-        this.#quizQuestion.hideRadioBtns()
-        this.#quizQuestion.hideTextAnswer()
-        this.#quizQuestion.textContent = 'Game Over! Try again?'
-        this.#quizQuestion.showTryAgainBtn()
-        this.#resetNickname()
-        this.#countdownTimer.resetTimer()
-        this.#continueQuiz = true
+        this.#highScore.textContent = 'Game Over! Try again?'
+        this.#totalTime = 0
       } else {
-        // Reset the quiz, update the player object and show the high score.
-        this.#quizQuestion.hideRadioBtns()
-        this.#quizQuestion.hideTextAnswer()
-        this.#countdownTimer.setAttribute('hidden', '')
-        this.#quizQuestion.setAttribute('hidden', '')
-
-        // Update the player object.
-        this.#player.nickname = this.#nickname
-        this.#player.totalScore = this.#totalTime
-        console.log(this.#player)
-
-        this.#highScore.removeAttribute('hidden', '')
-        this.#resetNickname()
-        this.#countdownTimer.resetTimer()
-        this.#continueQuiz = true
+        this.#highScore.textContent = 'Congratulations! You finished the quiz with a total time of ' + this.#totalTime + ' seconds!'
       }
+      // Reset the quiz, update the player object and show the high score.
+      this.#quizQuestion.hideRadioBtns()
+      this.#quizQuestion.hideTextAnswer()
+      this.#countdownTimer.setAttribute('hidden', '')
+      this.#countdownTimer.resetTimer()
+      this.#quizQuestion.setAttribute('hidden', '')
+
+      this.#player.nickname = this.#nickname
+      this.#player.score = this.#totalTime
+      // this.#updateHighScore()
+      // this.#highScore.showHighScore()
+
+      this.#highScore.removeAttribute('hidden', '')
+      this.#continueQuiz = true
+      this.#timeUp = false
+      this.#wrongAnswer = false
     }
 
     /**
@@ -185,7 +177,10 @@ customElements.define('quiz-application',
       this.#quizQuestion.setAttribute('hidden', '')
       this.#highScore.setAttribute('hidden', '')
       this.#countdownTimer.resetTimer()
+      this.#resetTotalTime()
+      this.#countdownTimer.resetTime()
       this.#continueQuiz = true
+      this.#timeUp = false
     }
 
     /**
@@ -199,12 +194,23 @@ customElements.define('quiz-application',
     }
 
     /**
-     * Function to reset nickname.
+     * Function to reset total time.
      *
      * @function
      */
-    #resetNickname () {
-      this.#nickname = ''
+    #resetTotalTime () {
+      this.#totalTime = 0
+    }
+
+    /**
+     * Function to update high score and send it to web storage.
+     *
+     * @function
+     */
+    #updateHighScore () {
+      const newScore = []
+      newScore.push(this.#player)
+      localStorage.setItem('highScore', JSON.stringify(newScore))
     }
 
     /**
@@ -310,12 +316,10 @@ customElements.define('quiz-application',
           if (this.#continueQuiz) {
             this.#postURL = data.nextURL
             this.getQuestion(this.#postURL)
+            console.log(this.#totalTime)
           } else {
-            // Dispatch event for high-score to listen to and handle.
-            this.dispatchEvent(new CustomEvent('gameover', {
-              detail: this.#player
-            }))
             this.#gameOver()
+            console.log(this.#totalTime)
           }
         }
       } catch (error) {
@@ -357,13 +361,18 @@ customElements.define('quiz-application',
           this.#restartQuiz()
         })
 
+        // Event listener for show high score event.
+        this.#quizQuestion.addEventListener('showHighScore', (event) => {
+          this.#quizQuestion.setAttribute('hidden', '')
+          this.#highScore.removeAttribute('hidden')
+        })
+
         // Event listener for answer event.
         this.#quizQuestion.addEventListener('answer', (event) => {
           this.#answer = event.detail
 
           // Calculate the total time of the finished quiz.
           this.#calcTotalTime()
-          console.log(this.#totalTime)
 
           // Hide the countdown timer.
           this.#countdownTimer.setAttribute('hidden', '')

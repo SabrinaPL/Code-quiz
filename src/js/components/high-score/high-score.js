@@ -7,12 +7,19 @@
 
 const template = document.createElement('template')
 template.innerHTML = `
-    <div id="high-score">
-        <h2>High Score</h2>
+    <h1><slot></slot></h1>
+    <h2>High Score</h2>
+    <ul id="high-score">
+    </ul>
+    <div>
         <button type="submit" class="btn">Play again</button>
     </div>
 
     <style>
+        #high-score {
+          color: #5FDDDB; 
+        }
+
         .btn {
         font-size: 1.1rem; 
         background-color: #FF66B3; 
@@ -42,20 +49,6 @@ customElements.define('high-score',
     #highScore
 
     /**
-     * Player nickname
-     *
-     * @type {string}
-     */
-    #nickname
-
-    /**
-     * Player high score.
-     *
-     * @type {number}
-     */
-    #playerHighScore
-
-    /**
      * Constructor for high score class which invokes its super class constructor.
      */
     constructor () {
@@ -68,6 +61,23 @@ customElements.define('high-score',
 
       // Get the nickname form element in the shadow root.
       this.#highScore = this.shadowRoot.querySelector('#high-score')
+    }
+
+    /** Present the high score.
+     *
+     * @function
+     */
+    showHighScore () {
+      // Get the high score from local storage.
+      // const highScore = JSON.parse(localStorage.getItem('highScore'))
+
+      // Create a list within the high score ul-element.
+      // const list = document.createElement('li')
+      // const nickname = highScore[0].nickname
+      // const score = highScore[0].score
+      // list.innerHTML = `${'nickname: ' + nickname}: ${'score: ' + score}`
+      // this.#highScore.append(list)
+      // console.log(highScore)
     }
 
     /**

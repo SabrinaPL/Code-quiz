@@ -12,44 +12,44 @@ template.innerHTML = `
     </div>
     <div id="answer-radio-btn">
     <div class="answers">
-        <input type="radio" class="answerRadio" name="answerRadio" value="answer1">
-            <label for="answerRadio" name="answerLabel"></label><br>
+        <input type="radio" id="radiobtn1" class="answerRadio" name="answerRadio" value="answer1">
+            <label for="radiobtn1" name="answerLabel"></label><br>
     </div>
     <div class="answers">
-        <input type="radio" class="answerRadio" name="answerRadio" value="answer2">
-            <label for="answerRadio" name="answerLabel"></label><br>
+        <input type="radio" id="radiobtn2" class="answerRadio" name="answerRadio" value="answer2">
+            <label for="radiobtn2" name="answerLabel"></label><br>
     </div>
     <div class="answers">
-        <input type="radio" class="answerRadio" name="answerRadio" value="answer3">
-            <label for="answerRadio" name="answerLabel"></label><br>
+        <input type="radio" id="radiobtn3" class="answerRadio" name="answerRadio" value="answer3">
+            <label for="radiobtn3" name="answerLabel"></label><br>
     </div>
     <div class="answers">
-        <input type="radio" class="answerRadio" name="answerRadio" value="answer4">
-            <label for="answerRadio" name="answerLabel"></label><br>
+        <input type="radio" id="radiobtn4" class="answerRadio" name="answerRadio" value="answer4">
+            <label for="radiobtn4" name="answerLabel"></label><br>
     </div>
     <div class="answers">
-        <input type="radio" class="answerRadio" name="answerRadio" value="answer5">
-            <label for="answerRadio" name="answerLabel"></label><br>
+        <input type="radio" id="radiobtn5" class="answerRadio" name="answerRadio" value="answer5">
+            <label for="radiobtn5" name="answerLabel"></label><br>
     </div>
     <div class="answers">
-        <input type="radio" class="answerRadio" name="answerRadio" value="answer6">
-            <label for="answerRadio" name="answerLabel"></label><br>
+        <input type="radio" id="radiobtn6" class="answerRadio" name="answerRadio" value="answer6">
+            <label for="radiobtn6" name="answerLabel"></label><br>
     </div>
     <div class="answers">
-        <input type="radio" class="answerRadio" name="answerRadio" value="answer7">
-            <label for="answerRadio" name="answerLabel"></label><br>
+        <input type="radio" id="radiobtn7" class="answerRadio" name="answerRadio" value="answer7">
+            <label for="radiobtn7" name="answerLabel"></label><br>
     </div>
     <div class="answers">
-        <input type="radio" class="answerRadio" name="answerRadio" value="answer8">
-            <label for="answerRadio" name="answerLabel"></label><br>
+        <input type="radio" id="radiobtn8" class="answerRadio" name="answerRadio" value="answer8">
+            <label for="radiobtn8" name="answerLabel"></label><br>
     </div>
     <div class="answers">
-        <input type="radio" class="answerRadio" name="answerRadio" value="answer9">
-            <label for="answerRadio" name="answerLabel"></label><br>
+        <input type="radio" id="radiobtn9" class="answerRadio" name="answerRadio" value="answer9">
+            <label for="radiobtn9" name="answerLabel"></label><br>
     </div>
     <div class="answers">
-        <input type="radio" class="answerRadio" name="answerRadio" value="answer10">
-            <label for="answerRadio" name="answerLabel"></label>
+        <input type="radio" id="radiobtn10" class="answerRadio" name="answerRadio" value="answer10">
+            <label for="radiobtn10" name="answerLabel"></label>
     </div>
     <button type="submit" class="btn" hidden>Submit</button>
     </div>
@@ -226,6 +226,7 @@ customElements.define('quiz-question',
      */
     showTryAgainBtn () {
       this.shadowRoot.querySelector('#try-again-btn').removeAttribute('hidden')
+      this.shadowRoot.querySelector('#show-high-score-btn').removeAttribute('hidden')
     }
 
     /**

@@ -154,7 +154,7 @@ customElements.define('countdown-timer',
      * @returns {number} - The remaining time.
      */
     countTime () {
-      return this.#currentTime / 1000
+      return (this.#startTime - this.#currentTime) / 1000
     }
 
     /**
@@ -164,5 +164,15 @@ customElements.define('countdown-timer',
      */
     resetTimer () {
       clearInterval(this.#intervalID)
+    }
+
+    /**
+     * Function to reset the countdown timer.
+     *
+     * @function
+     */
+    resetTime () {
+      this.#startTime = 0
+      this.#currentTime = 0
     }
   })
