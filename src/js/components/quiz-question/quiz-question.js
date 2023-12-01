@@ -112,7 +112,8 @@ template.innerHTML = `
 
 // Define the custom element.
 customElements.define('quiz-question',
-/** Quiz question class that extends HTMLElement class
+/**
+ * Quiz question class that extends HTMLElement class
  * and creates a custom element.
  */
   class extends HTMLElement {
@@ -190,7 +191,7 @@ customElements.define('quiz-question',
     }
 
     /**
-     * Function to hide and clear the radio buttons.
+     * Function to clear the radio buttons.
      *
      * @function
      */
@@ -231,6 +232,7 @@ customElements.define('quiz-question',
 
     /**
      * Connected callback for quiz question class which is invoked when the element is added to the DOM.
+     *
      */
     connectedCallback () {
       // Get the answer form element in the shadow root.

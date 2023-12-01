@@ -167,7 +167,7 @@ customElements.define('countdown-timer',
     }
 
     /**
-     * Function to reset the countdown timer.
+     * Function to reset the start time and current time.
      *
      * @function
      */
