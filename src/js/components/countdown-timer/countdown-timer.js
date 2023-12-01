@@ -87,7 +87,7 @@ customElements.define('countdown-timer',
       this.#updateTime()
 
       this.#intervalID = setInterval(() => {
-        this.#setInterval()
+        this.#setTime()
       }, 1000)
     }
 
@@ -96,7 +96,7 @@ customElements.define('countdown-timer',
      *
      * @function
      */
-    #setInterval () {
+    #setTime () {
       this.#currentTime -= 1000
       this.#updateTime()
       this.#changeColor()

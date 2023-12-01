@@ -316,10 +316,8 @@ customElements.define('quiz-application',
           if (this.#continueQuiz) {
             this.#postURL = data.nextURL
             this.getQuestion(this.#postURL)
-            console.log(this.#totalTime)
           } else {
             this.#gameOver()
-            console.log(this.#totalTime)
           }
         }
       } catch (error) {
@@ -345,47 +343,47 @@ customElements.define('quiz-application',
 
         // Remove the 'hidden' attribute from the quiz-question component.
         this.#quizQuestion.removeAttribute('hidden')
+      })
 
-        this.#countdownTimer.addEventListener('countdownTimerFinished', (event) => {
-          this.#timeUp = true
-          this.#gameOver()
-        })
+      this.#countdownTimer.addEventListener('countdownTimerFinished', (event) => {
+        this.#timeUp = true
+        this.#gameOver()
+      })
 
-        // Event listener for try again event.
-        this.#quizQuestion.addEventListener('tryAgain', (event) => {
-          this.#restartQuiz()
-        })
+      // Event listener for try again event.
+      this.#quizQuestion.addEventListener('tryAgain', (event) => {
+        this.#restartQuiz()
+      })
 
-        // Event listener for play again event.
-        this.#highScore.addEventListener('playAgain', (event) => {
-          this.#restartQuiz()
-        })
+      // Event listener for play again event.
+      this.#highScore.addEventListener('playAgain', (event) => {
+        this.#restartQuiz()
+      })
 
-        // Event listener for show high score event.
-        this.#quizQuestion.addEventListener('showHighScore', (event) => {
-          this.#quizQuestion.setAttribute('hidden', '')
-          this.#highScore.removeAttribute('hidden')
-        })
+      // Event listener for show high score event.
+      this.#quizQuestion.addEventListener('showHighScore', (event) => {
+        this.#quizQuestion.setAttribute('hidden', '')
+        this.#highScore.removeAttribute('hidden')
+      })
 
-        // Event listener for answer event.
-        this.#quizQuestion.addEventListener('answer', (event) => {
-          this.#answer = event.detail
+      // Event listener for answer event.
+      this.#quizQuestion.addEventListener('answer', (event) => {
+        this.#answer = event.detail
 
-          // Calculate the total time of the finished quiz.
-          this.#calcTotalTime()
+        // Calculate the total time of the finished quiz.
+        this.#calcTotalTime()
 
-          // Hide the countdown timer.
-          this.#countdownTimer.setAttribute('hidden', '')
+        // Hide the countdown timer.
+        this.#countdownTimer.setAttribute('hidden', '')
 
-          // Clear the answer text input.
-          this.#quizQuestion.clearTextAnswer()
+        // Clear the answer text input.
+        this.#quizQuestion.clearTextAnswer()
 
-          // Clear the radio buttons.
-          this.#quizQuestion.clearRadioBtns()
+        // Clear the radio buttons.
+        this.#quizQuestion.clearRadioBtns()
 
-          // Send the answer to the API.
-          this.sendAnswer()
-        })
+        // Send the answer to the API.
+        this.sendAnswer()
       })
     }
   })
