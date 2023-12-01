@@ -8,7 +8,7 @@
 const template = document.createElement('template')
 template.innerHTML = `
     <h1><slot></slot></h1>
-    <h2>High Score</h2>
+    <h2>High score of the top 5 fastest players:</h2>
     <ul id="high-score">
     </ul>
     <div>
@@ -18,6 +18,8 @@ template.innerHTML = `
     <style>
         #high-score {
           color: #5FDDDB; 
+          font-size: 1.5rem;
+          list-style: none; 
         }
 
         .btn {
@@ -48,6 +50,12 @@ customElements.define('high-score',
    */
     #highScore
 
+    /** The high score list.
+     *
+     * @type {Array}
+     */
+    #highScoreList
+
     /**
      * Constructor for high score class which invokes its super class constructor.
      */
@@ -59,25 +67,64 @@ customElements.define('high-score',
       this.attachShadow({ mode: 'open' })
       this.shadowRoot.append(template.content.cloneNode(true))
 
-      // Get the nickname form element in the shadow root.
+      // Get the high score form element in the shadow root.
       this.#highScore = this.shadowRoot.querySelector('#high-score')
     }
 
-    /** Present the high score.
+    /**
+     * Function to save player score to the high score list.
+     *
+     * @param {object} player - The player object.
+     */
+    saveHighScore (player) {
+      // Get the high score list.
+      this.#getHighScores()
+
+      // Add a player to the high score list array of objects.
+      this.#highScoreList.push(player)
+
+      // Sort the high scores (with the lowest value - i.e. fastest time - displayed at the top of the high score).
+      this.#highScoreList.sort((a, b) => a.score - b.score)
+
+      // Save the current high score in the local storage.
+      localStorage.setItem('highScoreList', JSON.stringify(this.#highScoreList))
+    }
+
+    /**
+     * Function to present the high score.
      *
      * @function
      */
     showHighScore () {
       // Get the high score from local storage.
-      // const highScore = JSON.parse(localStorage.getItem('highScore'))
+      this.#getHighScores()
 
-      // Create a list within the high score ul-element.
-      // const list = document.createElement('li')
-      // const nickname = highScore[0].nickname
-      // const score = highScore[0].score
-      // list.innerHTML = `${'nickname: ' + nickname}: ${'score: ' + score}`
-      // this.#highScore.append(list)
-      // console.log(highScore)
+      // Select the ul-element.
+      const highScoreUl = this.shadowRoot.querySelector('#high-score')
+
+      // Set the high score list to empty.
+      highScoreUl.innerHTML = ''
+
+      // Iterate through the high score list and create li-elements to add the high scores to.
+      for (const highScore of this.#highScoreList) {
+        highScoreUl.innerHTML += `<li>${highScore.nickname}: ${highScore.score}</li>`
+      }
+    }
+
+    /**
+     * Function to get high score list from the local storage.
+     *
+     * @function
+     */
+    #getHighScores () {
+      // Check if there is a previous high score list in the local storage.
+      if (localStorage.getItem('highScoreList') === null) {
+        // Create a new high score list.
+        this.#highScoreList = []
+      } else {
+        // Get the high score list from local storage.
+        this.#highScoreList = JSON.parse(localStorage.getItem('highScoreList'))
+      }
     }
 
     /**

@@ -142,26 +142,32 @@ customElements.define('quiz-application',
     #gameOver () {
       if (this.#wrongAnswer || this.#timeUp) {
         this.#highScore.textContent = 'Game Over! Try again?'
-        this.#totalTime = 0
+
+        // Hide the components that are not needed anymore and show the high score component.
+        this.#quizQuestion.hideRadioBtns()
+        this.#quizQuestion.hideTextAnswer()
+        this.#countdownTimer.setAttribute('hidden', '')
+        this.#quizQuestion.setAttribute('hidden', '')
+        this.#highScore.showHighScore()
+        this.#highScore.removeAttribute('hidden', '')
       } else {
         this.#highScore.textContent = 'Congratulations! You finished the quiz with a total time of ' + this.#totalTime + ' seconds!'
+
+        // Update the player object.
+        this.#player.nickname = this.#nickname
+        this.#player.score = this.#totalTime
+
+        // Save the player score in the local storage high score list.
+        this.#highScore.saveHighScore(this.#player)
+
+        // Hide the components that are not needed anymore and show the high score component.
+        this.#quizQuestion.hideRadioBtns()
+        this.#quizQuestion.hideTextAnswer()
+        this.#countdownTimer.setAttribute('hidden', '')
+        this.#quizQuestion.setAttribute('hidden', '')
+        this.#highScore.showHighScore()
+        this.#highScore.removeAttribute('hidden', '')
       }
-      // Reset the quiz, update the player object and show the high score.
-      this.#quizQuestion.hideRadioBtns()
-      this.#quizQuestion.hideTextAnswer()
-      this.#countdownTimer.setAttribute('hidden', '')
-      this.#countdownTimer.resetTimer()
-      this.#quizQuestion.setAttribute('hidden', '')
-
-      this.#player.nickname = this.#nickname
-      this.#player.score = this.#totalTime
-      // this.#updateHighScore()
-      // this.#highScore.showHighScore()
-
-      this.#highScore.removeAttribute('hidden', '')
-      this.#continueQuiz = true
-      this.#timeUp = false
-      this.#wrongAnswer = false
     }
 
     /**
@@ -170,17 +176,21 @@ customElements.define('quiz-application',
      * @function
      */
     #restartQuiz () {
+      // Hide the high score component and show the nickname form again.
       this.#nicknameForm.removeAttribute('hidden')
       this.#quizQuestion.hideRadioBtns()
       this.#quizQuestion.hideTextAnswer()
       this.#countdownTimer.setAttribute('hidden', '')
       this.#quizQuestion.setAttribute('hidden', '')
       this.#highScore.setAttribute('hidden', '')
+
+      // Reset the quiz.
       this.#countdownTimer.resetTimer()
       this.#resetTotalTime()
       this.#countdownTimer.resetTime()
       this.#continueQuiz = true
       this.#timeUp = false
+      this.#wrongAnswer = false
     }
 
     /**
@@ -200,17 +210,6 @@ customElements.define('quiz-application',
      */
     #resetTotalTime () {
       this.#totalTime = 0
-    }
-
-    /**
-     * Function to update high score and send it to web storage.
-     *
-     * @function
-     */
-    #updateHighScore () {
-      const newScore = []
-      newScore.push(this.#player)
-      localStorage.setItem('highScore', JSON.stringify(newScore))
     }
 
     /**
